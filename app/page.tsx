@@ -1,0 +1,1333 @@
+"use client"
+
+import type React from "react"
+
+import { useState, useEffect } from "react"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Separator } from "@/components/ui/separator"
+import { ToastContainer } from "@/components/toast-container"
+import { useToast } from "@/hooks/use-toast"
+import { validateForm } from "@/utils/validation"
+import {
+  Github,
+  Linkedin,
+  Mail,
+  ExternalLink,
+  Download,
+  Menu,
+  X,
+  ChevronDown,
+  Moon,
+  Sun,
+  ChevronLeft,
+  ChevronRight,
+  Code,
+  Palette,
+  Smartphone,
+  Server,
+  Zap,
+  Users,
+  Target,
+  Award,
+  BookOpen,
+  Calendar,
+  MapPin,
+  Send,
+  Loader2,
+} from "lucide-react"
+import Image from "next/image"
+import Link from "next/link"
+
+export default function Portfolio() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [activeSection, setActiveSection] = useState("home")
+  const [isDarkMode, setIsDarkMode] = useState(false)
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  const [projectCarousels, setProjectCarousels] = useState<{ [key: number]: number }>({})
+
+  // Form state
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  })
+  const [formErrors, setFormErrors] = useState({
+    name: [] as string[],
+    email: [] as string[],
+    message: [] as string[],
+  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const { toast } = useToast()
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY })
+    }
+
+    window.addEventListener("mousemove", handleMouseMove)
+    return () => window.removeEventListener("mousemove", handleMouseMove)
+  }, [])
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ["home", "about", "skills", "offerings", "projects", "qualifications", "experience", "contact"]
+      const scrollPosition = window.scrollY + 100
+
+      for (const section of sections) {
+        const element = document.getElementById(section)
+        if (element) {
+          const offsetTop = element.offsetTop
+          const offsetHeight = element.offsetHeight
+
+          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+            setActiveSection(section)
+            break
+          }
+        }
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId)
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" })
+    }
+    setIsMenuOpen(false)
+  }
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode)
+    document.documentElement.classList.toggle("dark")
+  }
+
+  // Form handlers
+  const handleInputChange = (field: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }))
+
+    // Clear errors for this field when user starts typing
+    if (formErrors[field as keyof typeof formErrors].length > 0) {
+      setFormErrors((prev) => ({ ...prev, [field]: [] }))
+    }
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    // Validate form
+    const validation = validateForm(formData.name, formData.email, formData.message)
+
+    if (!validation.isValid) {
+      setFormErrors(validation.errors)
+
+      // Show specific error toast
+      if (validation.firstError) {
+        toast.error("Form validation failed", validation.firstError)
+      } else {
+        toast.error("Please fix the errors below", "Check your form inputs and try again")
+      }
+      return
+    }
+
+    setIsSubmitting(true)
+
+    try {
+      // Simulate API call
+      await new Promise((resolve) => setTimeout(resolve, 2000))
+
+      // Simulate different types of failures for demo
+      const random = Math.random()
+
+      if (random > 0.7) {
+        // 70% success rate
+        toast.success("Message sent successfully! 🎉", "I'll get back to you within 24 hours")
+        setFormData({ name: "", email: "", message: "" })
+        setFormErrors({ name: [], email: [], message: [] })
+      } else if (random > 0.5) {
+        toast.error("Server temporarily unavailable", "Please try again in a few minutes or contact me directly")
+      } else if (random > 0.3) {
+        toast.error("Email delivery failed", "There was an issue with the email service. Please try again")
+      } else {
+        toast.error("Network connection error", "Please check your internet connection and try again")
+      }
+    } catch (error) {
+      toast.error("Unexpected error occurred", "Something went wrong. Please try again or contact me directly")
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  const skills = [
+    {
+      name: "React",
+      icon: "FaReact",
+      description: "Building dynamic user interfaces",
+      color: "#61DAFB",
+    },
+    {
+      name: "Next.js",
+      icon: "SiNextdotjs",
+      description: "Full-stack React framework",
+      color: "#000000",
+    },
+    {
+      name: "TypeScript",
+      icon: "SiTypescript",
+      description: "Type-safe JavaScript development",
+      color: "#3178C6",
+    },
+    {
+      name: "Node.js",
+      icon: "FaNodeJs",
+      description: "Server-side JavaScript runtime",
+      color: "#339933",
+    },
+    {
+      name: "MongoDB",
+      icon: "SiMongodb",
+      description: "NoSQL database solutions",
+      color: "#47A248",
+    },
+    {
+      name: "Tailwind CSS",
+      icon: "SiTailwindcss",
+      description: "Utility-first CSS framework",
+      color: "#06B6D4",
+    },
+    {
+      name: "Python",
+      icon: "FaPython",
+      description: "Backend development & AI",
+      color: "#3776AB",
+    },
+    {
+      name: "Docker",
+      icon: "FaDocker",
+      description: "Containerization platform",
+      color: "#2496ED",
+    },
+  ]
+
+  const offerings = [
+    {
+      icon: Code,
+      title: "Frontend Development",
+      description: "Modern, responsive web applications using React, Next.js, and cutting-edge technologies.",
+      features: ["React & Next.js", "Responsive Design", "Performance Optimization", "Modern UI/UX"],
+    },
+    {
+      icon: Server,
+      title: "Backend Development",
+      description: "Scalable server-side solutions with robust APIs and database management.",
+      features: ["RESTful APIs", "Database Design", "Authentication", "Cloud Integration"],
+    },
+    {
+      icon: Smartphone,
+      title: "Mobile Development",
+      description: "Cross-platform mobile applications with native performance and user experience.",
+      features: ["React Native", "Cross-platform", "Native Performance", "App Store Deployment"],
+    },
+    {
+      icon: Palette,
+      title: "UI/UX Design",
+      description: "User-centered design approach creating intuitive and engaging digital experiences.",
+      features: ["User Research", "Wireframing", "Prototyping", "Design Systems"],
+    },
+    {
+      icon: Zap,
+      title: "Performance Optimization",
+      description: "Speed up your applications with advanced optimization techniques and best practices.",
+      features: ["Code Splitting", "Lazy Loading", "SEO Optimization", "Core Web Vitals"],
+    },
+    {
+      icon: Users,
+      title: "Consulting & Mentoring",
+      description: "Technical guidance and mentorship for teams and individual developers.",
+      features: ["Code Reviews", "Architecture Planning", "Team Training", "Best Practices"],
+    },
+  ]
+
+  const qualifications = [
+    {
+      type: "Education",
+      title: "Bachelor of Computer Science",
+      institution: "Your University Name",
+      period: "2018 - 2022",
+      location: "City, Country",
+      description: "Specialized in Software Engineering and Web Technologies",
+      icon: BookOpen,
+    },
+    {
+      type: "Certification",
+      title: "AWS Certified Developer",
+      institution: "Amazon Web Services",
+      period: "2023",
+      location: "Online",
+      description: "Associate level certification for cloud development",
+      icon: Award,
+    },
+    {
+      type: "Certification",
+      title: "Google Cloud Professional",
+      institution: "Google Cloud Platform",
+      period: "2022",
+      location: "Online",
+      description: "Professional Cloud Developer certification",
+      icon: Award,
+    },
+    {
+      type: "Course",
+      title: "Advanced React & Redux",
+      institution: "Tech Academy",
+      period: "2021",
+      location: "Online",
+      description: "Comprehensive course on modern React development",
+      icon: BookOpen,
+    },
+  ]
+
+  const projects = [
+    {
+      title: "E-Commerce Platform",
+      description:
+        "Full-stack e-commerce solution with React, Node.js, and MongoDB. Features include user authentication, payment integration, and admin dashboard.",
+      images: [
+        "/placeholder.svg?height=300&width=500",
+        "/placeholder.svg?height=300&width=500",
+        "/placeholder.svg?height=300&width=500",
+        "/placeholder.svg?height=300&width=500",
+      ],
+      technologies: ["React", "Node.js", "MongoDB", "Stripe"],
+      liveUrl: "#",
+      githubUrl: "#",
+    },
+    {
+      title: "Task Management App",
+      description:
+        "Collaborative task management application with real-time updates, drag-and-drop functionality, and team collaboration features.",
+      images: [
+        "/placeholder.svg?height=300&width=500",
+        "/placeholder.svg?height=300&width=500",
+        "/placeholder.svg?height=300&width=500",
+      ],
+      technologies: ["Next.js", "TypeScript", "Prisma", "Socket.io"],
+      liveUrl: "#",
+      githubUrl: "#",
+    },
+    {
+      title: "Weather Dashboard",
+      description:
+        "Beautiful weather application with location-based forecasts, interactive maps, and detailed weather analytics.",
+      images: [
+        "/placeholder.svg?height=300&width=500",
+        "/placeholder.svg?height=300&width=500",
+        "/placeholder.svg?height=300&width=500",
+        "/placeholder.svg?height=300&width=500",
+        "/placeholder.svg?height=300&width=500",
+      ],
+      technologies: ["React", "API Integration", "Chart.js", "Tailwind"],
+      liveUrl: "#",
+      githubUrl: "#",
+    },
+  ]
+
+  const experience = [
+    {
+      title: "Senior Frontend Developer",
+      company: "Tech Solutions Inc.",
+      period: "2022 - Present",
+      description:
+        "Led development of multiple client projects using React and Next.js. Mentored junior developers and implemented best practices for code quality.",
+    },
+    {
+      title: "Full Stack Developer",
+      company: "Digital Agency Co.",
+      period: "2020 - 2022",
+      description:
+        "Developed and maintained web applications using MERN stack. Collaborated with design teams to create responsive and user-friendly interfaces.",
+    },
+    {
+      title: "Junior Web Developer",
+      company: "StartUp Ventures",
+      period: "2019 - 2020",
+      description:
+        "Built responsive websites and web applications. Gained experience in modern JavaScript frameworks and backend technologies.",
+    },
+  ]
+
+  const nextImage = (projectIndex: number) => {
+    setProjectCarousels((prev) => ({
+      ...prev,
+      [projectIndex]: ((prev[projectIndex] || 0) + 1) % projects[projectIndex].images.length,
+    }))
+  }
+
+  const prevImage = (projectIndex: number) => {
+    setProjectCarousels((prev) => ({
+      ...prev,
+      [projectIndex]:
+        ((prev[projectIndex] || 0) - 1 + projects[projectIndex].images.length) % projects[projectIndex].images.length,
+    }))
+  }
+
+  const FloatingElements = () => (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {[...Array(6)].map((_, i) => (
+        <div
+          key={i}
+          className={`absolute w-2 h-2 rounded-full ${
+            isDarkMode ? "bg-cyan-400/20" : "bg-orange-500/20"
+          } animate-pulse`}
+          style={{
+            left: `${20 + i * 15}%`,
+            top: `${30 + i * 10}%`,
+            animationDelay: `${i * 0.5}s`,
+            transform: `translate(${mousePosition.x * 0.01 * (i + 1)}px, ${mousePosition.y * 0.01 * (i + 1)}px)`,
+            transition: "transform 0.1s ease-out",
+          }}
+        />
+      ))}
+    </div>
+  )
+
+  return (
+    <div
+      className={`min-h-screen transition-colors duration-300 ${
+        isDarkMode
+          ? "bg-gradient-to-br from-slate-900 via-slate-800 to-amber-900/10 text-white"
+          : "bg-gradient-to-br from-orange-50 via-white to-rose-50 text-slate-900"
+      }`}
+    >
+      <ToastContainer />
+
+      {/* Navigation */}
+      <nav
+        className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+          isDarkMode
+            ? "bg-slate-900/80 backdrop-blur-md border-b border-slate-700"
+            : "bg-white/80 backdrop-blur-md border-b border-orange-200"
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <button
+              onClick={() => scrollToSection("home")}
+              className={`font-bold text-xl transition-all duration-300 hover:scale-105 ${
+                isDarkMode
+                  ? "bg-gradient-to-r from-amber-400 via-orange-500 to-rose-500 bg-clip-text text-transparent animate-pulse"
+                  : "bg-gradient-to-r from-orange-600 via-rose-600 to-emerald-600 bg-clip-text text-transparent animate-pulse"
+              }`}
+            >
+              AP.dev
+            </button>
+
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex space-x-8">
+              {["home", "about", "skills", "offerings", "projects", "qualifications", "experience", "contact"].map(
+                (item) => (
+                  <button
+                    key={item}
+                    onClick={() => scrollToSection(item)}
+                    className={`capitalize transition-all duration-200 hover:scale-105 ${
+                      activeSection === item
+                        ? `${isDarkMode ? "text-amber-400 font-medium transform scale-105" : "text-orange-600 font-medium transform scale-105"}`
+                        : `${isDarkMode ? "text-slate-300 hover:text-amber-400" : "text-slate-600 hover:text-orange-600"}`
+                    }`}
+                  >
+                    {item}
+                  </button>
+                ),
+              )}
+            </div>
+
+            <div className="flex items-center space-x-4">
+              {/* Dark Mode Toggle */}
+              <button
+                onClick={toggleDarkMode}
+                className={`p-2 rounded-lg transition-all duration-300 hover:scale-110 ${
+                  isDarkMode
+                    ? "bg-slate-800 text-yellow-400 hover:bg-slate-700"
+                    : "bg-orange-100 text-slate-600 hover:bg-orange-200"
+                }`}
+              >
+                {isDarkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+              </button>
+
+              {/* Mobile Menu Button */}
+              <button
+                className="md:hidden transition-transform duration-200 hover:scale-110"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+              >
+                {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              </button>
+            </div>
+          </div>
+
+          {/* Mobile Navigation */}
+          {isMenuOpen && (
+            <div
+              className={`md:hidden py-4 border-t transition-all duration-300 ${
+                isDarkMode ? "border-slate-700" : "border-orange-200"
+              }`}
+            >
+              {["home", "about", "skills", "offerings", "projects", "qualifications", "experience", "contact"].map(
+                (item) => (
+                  <button
+                    key={item}
+                    onClick={() => scrollToSection(item)}
+                    className={`block w-full text-left py-2 capitalize transition-colors duration-200 ${
+                      isDarkMode ? "text-slate-300 hover:text-amber-400" : "text-slate-600 hover:text-orange-600"
+                    }`}
+                  >
+                    {item}
+                  </button>
+                ),
+              )}
+            </div>
+          )}
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <section id="home" className="pt-16 min-h-screen flex items-center relative overflow-hidden">
+        <FloatingElements />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 relative z-10">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            {/* Mobile: Image First */}
+            <div className="relative flex justify-center lg:justify-end order-1 lg:order-2">
+              <div className="relative w-64 h-64 sm:w-80 sm:h-80 animate-float">
+                <div
+                  className={`absolute inset-0 rounded-full blur-3xl opacity-20 animate-pulse ${
+                    isDarkMode
+                      ? "bg-gradient-to-r from-cyan-400 to-blue-500"
+                      : "bg-gradient-to-r from-orange-400 to-rose-500"
+                  }`}
+                ></div>
+                <div
+                  className={`absolute inset-4 rounded-full blur-2xl opacity-30 animate-pulse animation-delay-1000 ${
+                    isDarkMode
+                      ? "bg-gradient-to-r from-purple-500 to-cyan-600"
+                      : "bg-gradient-to-r from-emerald-500 to-orange-600"
+                  }`}
+                ></div>
+                <Image
+                  src="/placeholder.svg?height=320&width=320"
+                  alt="Ankuj Pandey Profile"
+                  width={320}
+                  height={320}
+                  className="relative z-10 rounded-full border-4 border-white shadow-2xl transform hover:scale-105 transition-transform duration-500"
+                />
+
+                {/* Orbiting Elements */}
+                <div className="absolute inset-0 animate-spin-slow">
+                  <div
+                    className={`absolute top-0 left-1/2 w-3 h-3 rounded-full transform -translate-x-1/2 -translate-y-1/2 ${
+                      isDarkMode ? "bg-cyan-500" : "bg-orange-500"
+                    }`}
+                  ></div>
+                  <div
+                    className={`absolute bottom-0 left-1/2 w-2 h-2 rounded-full transform -translate-x-1/2 translate-y-1/2 ${
+                      isDarkMode ? "bg-blue-500" : "bg-rose-500"
+                    }`}
+                  ></div>
+                  <div
+                    className={`absolute left-0 top-1/2 w-2 h-2 rounded-full transform -translate-x-1/2 -translate-y-1/2 ${
+                      isDarkMode ? "bg-purple-400" : "bg-emerald-400"
+                    }`}
+                  ></div>
+                  <div
+                    className={`absolute right-0 top-1/2 w-3 h-3 rounded-full transform translate-x-1/2 -translate-y-1/2 ${
+                      isDarkMode ? "bg-cyan-400" : "bg-orange-400"
+                    }`}
+                  ></div>
+                </div>
+              </div>
+            </div>
+
+            {/* Mobile: Content Second */}
+            <div className="space-y-6 sm:space-y-8 text-center lg:text-left order-2 lg:order-1">
+              <div className="space-y-4">
+                <div className="animate-fade-in-up">
+                  <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold leading-tight">
+                    <span
+                      className={`bg-clip-text text-transparent animate-gradient-x ${
+                        isDarkMode
+                          ? "bg-gradient-to-r from-amber-400 via-orange-500 to-rose-500"
+                          : "bg-gradient-to-r from-orange-600 via-rose-600 to-emerald-600"
+                      }`}
+                    >
+                      Hello, I'm
+                    </span>
+                    <br />
+                    <span className={`animate-slide-in-right ${isDarkMode ? "text-white" : "text-slate-800"}`}>
+                      Ankuj Pandey
+                    </span>
+                  </h1>
+                </div>
+
+                <div className="animate-fade-in-up animation-delay-200">
+                  <p
+                    className={`text-lg sm:text-xl lg:text-2xl font-light ${
+                      isDarkMode ? "text-slate-300" : "text-slate-600"
+                    }`}
+                  >
+                    Full Stack Web Developer
+                  </p>
+                </div>
+
+                <div className="animate-fade-in-up animation-delay-400">
+                  <p
+                    className={`text-base sm:text-lg max-w-lg leading-relaxed mx-auto lg:mx-0 ${
+                      isDarkMode ? "text-slate-400" : "text-slate-500"
+                    }`}
+                  >
+                    I craft beautiful, responsive web applications with modern technologies. Passionate about creating
+                    exceptional user experiences and clean, maintainable code.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start animate-fade-in-up animation-delay-600">
+                <Button
+                  size="lg"
+                  className={`transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl ${
+                    isDarkMode
+                      ? "bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700"
+                      : "bg-gradient-to-r from-orange-600 to-rose-600 hover:from-orange-700 hover:to-rose-700"
+                  }`}
+                  onClick={() => scrollToSection("projects")}
+                >
+                  View My Work
+                </Button>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className={`transform hover:scale-105 transition-all duration-300 ${
+                    isDarkMode
+                      ? "border-slate-600 hover:bg-slate-800 bg-transparent text-white"
+                      : "border-orange-300 hover:bg-orange-50 bg-transparent"
+                  }`}
+                >
+                  <Download className="mr-2 h-4 w-4" />
+                  Download CV
+                </Button>
+              </div>
+
+              <div className="flex justify-center lg:justify-start space-x-6 animate-fade-in-up animation-delay-800">
+                {[Github, Linkedin, Mail].map((Icon, index) => (
+                  <Link
+                    key={index}
+                    href="#"
+                    className={`transform hover:scale-125 transition-all duration-300 hover:-translate-y-1 ${
+                      isDarkMode ? "text-slate-400 hover:text-cyan-400" : "text-slate-600 hover:text-orange-600"
+                    }`}
+                  >
+                    <Icon className="h-6 w-6" />
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-12 sm:mt-20 text-center animate-bounce">
+            <button
+              onClick={() => scrollToSection("about")}
+              className={`transition-colors duration-300 hover:scale-110 transform ${
+                isDarkMode ? "text-slate-400 hover:text-cyan-400" : "text-slate-400 hover:text-orange-600"
+              }`}
+            >
+              <ChevronDown className="h-8 w-8" />
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section
+        id="about"
+        className={`py-12 sm:py-20 transition-colors duration-300 ${isDarkMode ? "bg-slate-800/50" : "bg-white"}`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className={`text-3xl sm:text-4xl font-bold mb-4 ${isDarkMode ? "text-white" : "text-slate-800"}`}>
+              About Me
+            </h2>
+            <div
+              className={`w-20 h-1 mx-auto ${
+                isDarkMode
+                  ? "bg-gradient-to-r from-amber-600 to-orange-600"
+                  : "bg-gradient-to-r from-orange-600 to-rose-600"
+              }`}
+            ></div>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            <div className="space-y-6 order-2 lg:order-1">
+              <p className={`text-base sm:text-lg leading-relaxed ${isDarkMode ? "text-slate-300" : "text-slate-600"}`}>
+                I'm a passionate full-stack web developer with over 4 years of experience creating digital solutions
+                that make a difference. I specialize in modern JavaScript frameworks and have a keen eye for design and
+                user experience.
+              </p>
+              <p className={`text-base sm:text-lg leading-relaxed ${isDarkMode ? "text-slate-300" : "text-slate-600"}`}>
+                When I'm not coding, you can find me exploring new technologies, contributing to open-source projects,
+                or sharing knowledge with the developer community. I believe in writing clean, maintainable code and
+                creating applications that users love.
+              </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-8">
+                {[
+                  { label: "Location", value: "Your City, Country" },
+                  { label: "Experience", value: "4+ Years" },
+                  { label: "Email", value: "ankuj.pandey@example.com" },
+                  { label: "Availability", value: "Open to opportunities" },
+                ].map((item, index) => (
+                  <div key={index} className="transform hover:scale-105 transition-transform duration-300">
+                    <h3 className={`font-semibold mb-2 ${isDarkMode ? "text-white" : "text-slate-800"}`}>
+                      {item.label}
+                    </h3>
+                    <p className={isDarkMode ? "text-slate-300" : "text-slate-600"}>{item.value}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="relative order-1 lg:order-2">
+              <div className="relative transform hover:scale-105 transition-transform duration-500 max-w-md mx-auto lg:max-w-none">
+                <Image
+                  src="/placeholder.svg?height=400&width=500"
+                  alt="About Ankuj Pandey"
+                  width={500}
+                  height={400}
+                  className="rounded-lg shadow-xl w-full h-auto object-cover"
+                />
+                <div
+                  className={`absolute inset-0 rounded-lg ${
+                    isDarkMode
+                      ? "bg-gradient-to-t from-cyan-600/20 to-transparent"
+                      : "bg-gradient-to-t from-orange-600/20 to-transparent"
+                  }`}
+                ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Skills Section */}
+      <section
+        id="skills"
+        className={`py-12 sm:py-20 transition-colors duration-300 ${isDarkMode ? "bg-slate-900/50" : "bg-orange-50"}`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className={`text-3xl sm:text-4xl font-bold mb-4 ${isDarkMode ? "text-white" : "text-slate-800"}`}>
+              Skills & Technologies
+            </h2>
+            <div
+              className={`w-20 h-1 mx-auto ${
+                isDarkMode
+                  ? "bg-gradient-to-r from-amber-600 to-orange-600"
+                  : "bg-gradient-to-r from-orange-600 to-rose-600"
+              }`}
+            ></div>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+            {skills.map((skill, index) => (
+              <Card
+                key={index}
+                className={`border-0 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 group ${
+                  isDarkMode ? "bg-slate-800 hover:bg-slate-700" : "bg-white hover:bg-orange-50"
+                }`}
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                <CardContent className="p-4 sm:p-6 text-center">
+                  <div className="mb-4 transform group-hover:scale-110 transition-transform duration-300">
+                    <div
+                      className="w-12 h-12 sm:w-16 sm:h-16 mx-auto rounded-lg flex items-center justify-center text-2xl sm:text-3xl font-bold text-white"
+                      style={{ backgroundColor: skill.color }}
+                    >
+                      {skill.name.charAt(0)}
+                    </div>
+                  </div>
+                  <h3
+                    className={`font-semibold mb-2 text-sm sm:text-base ${isDarkMode ? "text-white" : "text-slate-800"}`}
+                  >
+                    {skill.name}
+                  </h3>
+                  <p className={`text-xs sm:text-sm ${isDarkMode ? "text-slate-400" : "text-slate-600"}`}>
+                    {skill.description}
+                  </p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          <div className="mt-8 text-center">
+            <p className={`text-sm ${isDarkMode ? "text-slate-400" : "text-slate-500"}`}>
+              💡 <strong>Tip:</strong> Install{" "}
+              <code className="bg-slate-200 dark:bg-slate-700 px-2 py-1 rounded text-xs">npm install react-icons</code>{" "}
+              to use beautiful skill logos!
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Offerings Section */}
+      <section
+        id="offerings"
+        className={`py-12 sm:py-20 transition-colors duration-300 ${isDarkMode ? "bg-slate-800/50" : "bg-white"}`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className={`text-3xl sm:text-4xl font-bold mb-4 ${isDarkMode ? "text-white" : "text-slate-800"}`}>
+              What I Offer
+            </h2>
+            <div
+              className={`w-20 h-1 mx-auto ${
+                isDarkMode
+                  ? "bg-gradient-to-r from-amber-600 to-orange-600"
+                  : "bg-gradient-to-r from-orange-600 to-rose-600"
+              }`}
+            ></div>
+            <p className={`mt-6 text-lg max-w-3xl mx-auto ${isDarkMode ? "text-slate-300" : "text-slate-600"}`}>
+              Comprehensive web development services tailored to bring your ideas to life with modern technologies and
+              best practices.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+            {offerings.map((offering, index) => {
+              const IconComponent = offering.icon
+              return (
+                <Card
+                  key={index}
+                  className={`border-0 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 group ${
+                    isDarkMode ? "bg-slate-800 hover:bg-slate-700" : "bg-white hover:bg-orange-50"
+                  }`}
+                >
+                  <CardContent className="p-6">
+                    <div
+                      className={`mb-4 p-3 rounded-lg w-fit ${
+                        isDarkMode
+                          ? "bg-gradient-to-r from-cyan-100 to-blue-100"
+                          : "bg-gradient-to-r from-orange-100 to-rose-100"
+                      }`}
+                    >
+                      <IconComponent className={`h-6 w-6 ${isDarkMode ? "text-cyan-600" : "text-orange-600"}`} />
+                    </div>
+                    <h3 className={`text-xl font-semibold mb-3 ${isDarkMode ? "text-white" : "text-slate-800"}`}>
+                      {offering.title}
+                    </h3>
+                    <p className={`mb-4 ${isDarkMode ? "text-slate-300" : "text-slate-600"}`}>{offering.description}</p>
+                    <ul className="space-y-2">
+                      {offering.features.map((feature, featureIndex) => (
+                        <li
+                          key={featureIndex}
+                          className={`flex items-center text-sm ${isDarkMode ? "text-slate-400" : "text-slate-500"}`}
+                        >
+                          <Target className={`h-3 w-3 mr-2 ${isDarkMode ? "text-cyan-400" : "text-orange-500"}`} />
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Projects Section */}
+      <section
+        id="projects"
+        className={`py-12 sm:py-20 transition-colors duration-300 ${isDarkMode ? "bg-slate-900/50" : "bg-orange-50"}`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className={`text-3xl sm:text-4xl font-bold mb-4 ${isDarkMode ? "text-white" : "text-slate-800"}`}>
+              Featured Projects
+            </h2>
+            <div
+              className={`w-20 h-1 mx-auto ${
+                isDarkMode
+                  ? "bg-gradient-to-r from-amber-600 to-orange-600"
+                  : "bg-gradient-to-r from-orange-600 to-rose-600"
+              }`}
+            ></div>
+          </div>
+
+          <div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
+            {projects.map((project, index) => (
+              <Card
+                key={index}
+                className={`border-0 shadow-lg hover:shadow-xl transition-all duration-300 group transform hover:scale-105 ${
+                  isDarkMode ? "bg-slate-800" : "bg-white"
+                }`}
+              >
+                <div className="relative overflow-hidden">
+                  {/* Image Carousel */}
+                  <div className="relative h-48 sm:h-56">
+                    <Image
+                      src={project.images[projectCarousels[index] || 0]}
+                      alt={project.title}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+
+                    {/* Carousel Controls */}
+                    {project.images.length > 1 && (
+                      <>
+                        <button
+                          onClick={() => prevImage(index)}
+                          className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-black/70"
+                        >
+                          <ChevronLeft className="h-4 w-4" />
+                        </button>
+                        <button
+                          onClick={() => nextImage(index)}
+                          className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-black/70"
+                        >
+                          <ChevronRight className="h-4 w-4" />
+                        </button>
+
+                        {/* Dots Indicator */}
+                        <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                          {project.images.map((_, imgIndex) => (
+                            <button
+                              key={imgIndex}
+                              onClick={() => setProjectCarousels((prev) => ({ ...prev, [index]: imgIndex }))}
+                              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                                (projectCarousels[index] || 0) === imgIndex ? "bg-white" : "bg-white/50"
+                              }`}
+                            />
+                          ))}
+                        </div>
+                      </>
+                    )}
+                  </div>
+
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
+
+                <CardContent className="p-4 sm:p-6">
+                  <h3
+                    className={`text-lg sm:text-xl font-semibold mb-2 ${isDarkMode ? "text-white" : "text-slate-800"}`}
+                  >
+                    {project.title}
+                  </h3>
+                  <p
+                    className={`mb-4 text-sm sm:text-base line-clamp-3 ${isDarkMode ? "text-slate-300" : "text-slate-600"}`}
+                  >
+                    {project.description}
+                  </p>
+
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {project.technologies.map((tech, techIndex) => (
+                      <Badge
+                        key={techIndex}
+                        variant="secondary"
+                        className={`text-xs ${
+                          isDarkMode ? "bg-slate-700 text-slate-300" : "bg-orange-100 text-orange-700"
+                        }`}
+                      >
+                        {tech}
+                      </Badge>
+                    ))}
+                  </div>
+
+                  <div className="flex space-x-3">
+                    <Button
+                      size="sm"
+                      className={`flex-1 text-sm ${
+                        isDarkMode
+                          ? "bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700"
+                          : "bg-gradient-to-r from-orange-600 to-rose-600 hover:from-orange-700 hover:to-rose-700"
+                      }`}
+                    >
+                      <ExternalLink className="mr-2 h-3 w-3" />
+                      Live Demo
+                    </Button>
+                    <Button variant="outline" size="sm" className={isDarkMode ? "border-slate-600 text-slate-300" : ""}>
+                      <Github className="h-3 w-3" />
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Qualifications Section */}
+      <section
+        id="qualifications"
+        className={`py-12 sm:py-20 transition-colors duration-300 ${isDarkMode ? "bg-slate-800/50" : "bg-white"}`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className={`text-3xl sm:text-4xl font-bold mb-4 ${isDarkMode ? "text-white" : "text-slate-800"}`}>
+              Education & Certifications
+            </h2>
+            <div
+              className={`w-20 h-1 mx-auto ${
+                isDarkMode
+                  ? "bg-gradient-to-r from-amber-600 to-orange-600"
+                  : "bg-gradient-to-r from-orange-600 to-rose-600"
+              }`}
+            ></div>
+          </div>
+
+          <div className="max-w-4xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
+              {qualifications.map((qual, index) => {
+                const IconComponent = qual.icon
+                return (
+                  <Card
+                    key={index}
+                    className={`border-0 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 ${
+                      isDarkMode ? "bg-slate-800" : "bg-white"
+                    }`}
+                  >
+                    <CardContent className="p-6">
+                      <div className="flex items-start space-x-4">
+                        <div
+                          className={`p-3 rounded-lg ${
+                            isDarkMode
+                              ? "bg-gradient-to-r from-cyan-100 to-blue-100"
+                              : "bg-gradient-to-r from-orange-100 to-rose-100"
+                          }`}
+                        >
+                          <IconComponent className={`h-6 w-6 ${isDarkMode ? "text-cyan-600" : "text-orange-600"}`} />
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex items-center justify-between mb-2">
+                            <Badge variant="outline" className="text-xs">
+                              {qual.type}
+                            </Badge>
+                            <div
+                              className={`flex items-center text-xs ${isDarkMode ? "text-slate-400" : "text-slate-500"}`}
+                            >
+                              <Calendar className="h-3 w-3 mr-1" />
+                              {qual.period}
+                            </div>
+                          </div>
+                          <h3 className={`text-lg font-semibold mb-1 ${isDarkMode ? "text-white" : "text-slate-800"}`}>
+                            {qual.title}
+                          </h3>
+                          <p className={`font-medium mb-2 ${isDarkMode ? "text-cyan-400" : "text-orange-600"}`}>
+                            {qual.institution}
+                          </p>
+                          <div
+                            className={`flex items-center text-xs mb-3 ${isDarkMode ? "text-slate-400" : "text-slate-500"}`}
+                          >
+                            <MapPin className="h-3 w-3 mr-1" />
+                            {qual.location}
+                          </div>
+                          <p className={`text-sm ${isDarkMode ? "text-slate-300" : "text-slate-600"}`}>
+                            {qual.description}
+                          </p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                )
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Experience Section */}
+      <section
+        id="experience"
+        className={`py-12 sm:py-20 transition-colors duration-300 ${isDarkMode ? "bg-slate-900/50" : "bg-orange-50"}`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className={`text-3xl sm:text-4xl font-bold mb-4 ${isDarkMode ? "text-white" : "text-slate-800"}`}>
+              Work Experience
+            </h2>
+            <div
+              className={`w-20 h-1 mx-auto ${
+                isDarkMode
+                  ? "bg-gradient-to-r from-amber-600 to-orange-600"
+                  : "bg-gradient-to-r from-orange-600 to-rose-600"
+              }`}
+            ></div>
+          </div>
+
+          <div className="max-w-4xl mx-auto">
+            {experience.map((exp, index) => (
+              <div key={index} className="relative">
+                {index !== experience.length - 1 && (
+                  <div
+                    className={`absolute left-4 sm:left-6 top-16 w-0.5 h-full ${
+                      isDarkMode
+                        ? "bg-gradient-to-b from-amber-600 to-orange-600"
+                        : "bg-gradient-to-b from-orange-600 to-rose-600"
+                    }`}
+                  ></div>
+                )}
+
+                <div className="flex items-start space-x-4 sm:space-x-6 mb-8 sm:mb-12">
+                  <div
+                    className={`flex-shrink-0 w-8 h-8 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transform hover:scale-110 transition-transform duration-300 ${
+                      isDarkMode
+                        ? "bg-gradient-to-r from-amber-600 to-orange-600"
+                        : "bg-gradient-to-r from-orange-600 to-rose-600"
+                    }`}
+                  >
+                    <div className="w-3 h-3 sm:w-6 sm:h-6 bg-white rounded-full"></div>
+                  </div>
+
+                  <Card
+                    className={`flex-1 border-0 shadow-lg transform hover:scale-105 transition-transform duration-300 ${
+                      isDarkMode ? "bg-slate-800" : "bg-white"
+                    }`}
+                  >
+                    <CardContent className="p-4 sm:p-6">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3">
+                        <h3
+                          className={`text-lg sm:text-xl font-semibold ${isDarkMode ? "text-white" : "text-slate-800"}`}
+                        >
+                          {exp.title}
+                        </h3>
+                        <Badge variant="outline" className="w-fit mt-2 sm:mt-0 text-xs sm:text-sm">
+                          {exp.period}
+                        </Badge>
+                      </div>
+                      <p
+                        className={`font-medium mb-3 text-sm sm:text-base ${
+                          isDarkMode ? "text-cyan-400" : "text-orange-600"
+                        }`}
+                      >
+                        {exp.company}
+                      </p>
+                      <p
+                        className={`leading-relaxed text-sm sm:text-base ${isDarkMode ? "text-slate-300" : "text-slate-600"}`}
+                      >
+                        {exp.description}
+                      </p>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section
+        id="contact"
+        className={`py-12 sm:py-20 transition-colors duration-300 ${isDarkMode ? "bg-slate-800/50" : "bg-white"}`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className={`text-3xl sm:text-4xl font-bold mb-4 ${isDarkMode ? "text-white" : "text-slate-800"}`}>
+              Get In Touch
+            </h2>
+            <div
+              className={`w-20 h-1 mx-auto mb-6 ${
+                isDarkMode
+                  ? "bg-gradient-to-r from-amber-600 to-orange-600"
+                  : "bg-gradient-to-r from-orange-600 to-rose-600"
+              }`}
+            ></div>
+            <p className={`text-base sm:text-lg max-w-2xl mx-auto ${isDarkMode ? "text-slate-300" : "text-slate-600"}`}>
+              I'm always interested in new opportunities and exciting projects. Let's discuss how we can work together!
+            </p>
+          </div>
+
+          <div className="max-w-4xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
+              <div className="space-y-6 sm:space-y-8">
+                {[
+                  { icon: Mail, title: "Email", value: "ankuj.pandey@example.com" },
+                  { icon: Linkedin, title: "LinkedIn", value: "linkedin.com/in/ankujpandey" },
+                  { icon: Github, title: "GitHub", value: "github.com/ankujpandey" },
+                ].map((contact, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center space-x-4 transform hover:scale-105 transition-transform duration-300"
+                  >
+                    <div
+                      className={`p-3 rounded-lg ${
+                        isDarkMode
+                          ? "bg-gradient-to-r from-cyan-100 to-blue-100"
+                          : "bg-gradient-to-r from-orange-100 to-rose-100"
+                      }`}
+                    >
+                      <contact.icon
+                        className={`h-5 w-5 sm:h-6 sm:w-6 ${isDarkMode ? "text-cyan-600" : "text-orange-600"}`}
+                      />
+                    </div>
+                    <div>
+                      <h3 className={`font-semibold ${isDarkMode ? "text-white" : "text-slate-800"}`}>
+                        {contact.title}
+                      </h3>
+                      <p className={`text-sm sm:text-base ${isDarkMode ? "text-slate-300" : "text-slate-600"}`}>
+                        {contact.value}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <Card
+                className={`border-0 shadow-xl transform hover:scale-105 transition-transform duration-300 ${
+                  isDarkMode ? "bg-slate-800" : "bg-white"
+                }`}
+              >
+                <CardContent className="p-6 sm:p-8">
+                  <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+                    <div>
+                      <label
+                        className={`block text-sm font-medium mb-2 ${isDarkMode ? "text-slate-300" : "text-slate-700"}`}
+                      >
+                        Name *
+                      </label>
+                      <input
+                        type="text"
+                        value={formData.name}
+                        onChange={(e) => handleInputChange("name", e.target.value)}
+                        className={`w-full px-4 py-3 border rounded-lg transition-all duration-300 ${
+                          formErrors.name.length > 0
+                            ? "border-red-500 focus:ring-red-500"
+                            : isDarkMode
+                              ? "border-slate-600 bg-slate-700 text-white placeholder-slate-400 focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                              : "border-slate-300 bg-white focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        }`}
+                        placeholder="Your Name"
+                        disabled={isSubmitting}
+                      />
+                      {formErrors.name.length > 0 && <p className="text-red-500 text-xs mt-1">{formErrors.name[0]}</p>}
+                    </div>
+
+                    <div>
+                      <label
+                        className={`block text-sm font-medium mb-2 ${isDarkMode ? "text-slate-300" : "text-slate-700"}`}
+                      >
+                        Email *
+                      </label>
+                      <input
+                        type="email"
+                        value={formData.email}
+                        onChange={(e) => handleInputChange("email", e.target.value)}
+                        className={`w-full px-4 py-3 border rounded-lg transition-all duration-300 ${
+                          formErrors.email.length > 0
+                            ? "border-red-500 focus:ring-red-500"
+                            : isDarkMode
+                              ? "border-slate-600 bg-slate-700 text-white placeholder-slate-400 focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                              : "border-slate-300 bg-white focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        }`}
+                        placeholder="your.email@example.com"
+                        disabled={isSubmitting}
+                      />
+                      {formErrors.email.length > 0 && (
+                        <p className="text-red-500 text-xs mt-1">{formErrors.email[0]}</p>
+                      )}
+                    </div>
+
+                    <div>
+                      <label
+                        className={`block text-sm font-medium mb-2 ${isDarkMode ? "text-slate-300" : "text-slate-700"}`}
+                      >
+                        Message *
+                      </label>
+                      <textarea
+                        rows={4}
+                        value={formData.message}
+                        onChange={(e) => handleInputChange("message", e.target.value)}
+                        className={`w-full px-4 py-3 border rounded-lg transition-all duration-300 resize-none ${
+                          formErrors.message.length > 0
+                            ? "border-red-500 focus:ring-red-500"
+                            : isDarkMode
+                              ? "border-slate-600 bg-slate-700 text-white placeholder-slate-400 focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                              : "border-slate-300 bg-white focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        }`}
+                        placeholder="Tell me about your project..."
+                        disabled={isSubmitting}
+                      />
+                      {formErrors.message.length > 0 && (
+                        <p className="text-red-500 text-xs mt-1">{formErrors.message[0]}</p>
+                      )}
+                      <p className={`text-xs mt-1 ${isDarkMode ? "text-slate-400" : "text-slate-500"}`}>
+                        {formData.message.length}/1000 characters
+                      </p>
+                    </div>
+
+                    <Button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className={`w-full transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none ${
+                        isDarkMode
+                          ? "bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700"
+                          : "bg-gradient-to-r from-orange-600 to-rose-600 hover:from-orange-700 hover:to-rose-700"
+                      }`}
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Sending...
+                        </>
+                      ) : (
+                        <>
+                          <Send className="mr-2 h-4 w-4" />
+                          Send Message
+                        </>
+                      )}
+                    </Button>
+                  </form>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className={`py-8 sm:py-12 ${isDarkMode ? "bg-slate-900" : "bg-slate-900"} text-white`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <div
+              className={`font-bold text-xl sm:text-2xl mb-4 ${
+                isDarkMode
+                  ? "bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent"
+                  : "bg-gradient-to-r from-orange-400 to-rose-400 bg-clip-text text-transparent"
+              }`}
+            >
+              Ankuj Pandey
+            </div>
+            <p className="text-slate-400 mb-6 text-sm sm:text-base">
+              Full Stack Web Developer • Creating Digital Experiences
+            </p>
+            <div className="flex justify-center space-x-6 mb-6 sm:mb-8">
+              {[Github, Linkedin, Mail].map((Icon, index) => (
+                <Link
+                  key={index}
+                  href="#"
+                  className="text-slate-400 hover:text-white transition-all duration-300 transform hover:scale-125 hover:-translate-y-1"
+                >
+                  <Icon className="h-5 w-5 sm:h-6 sm:w-6" />
+                </Link>
+              ))}
+            </div>
+            <Separator className="bg-slate-700 mb-4 sm:mb-6" />
+            <p className="text-slate-400 text-xs sm:text-sm">
+              © {new Date().getFullYear()} Ankuj Pandey. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  )
+}
