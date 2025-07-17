@@ -11,6 +11,25 @@ import { ToastContainer } from "@/components/toast-container"
 import { useToast } from "@/hooks/use-toast"
 import { validateForm } from "@/utils/validation"
 import {
+  SiNodedotjs,
+  SiExpress,
+  SiHtml5,
+  SiCss3,
+  SiBootstrap,
+  SiTailwindcss,
+  SiReact,
+  SiJavascript,
+  SiMysql,
+  SiMongodb,
+  SiGit,
+  SiJenkins,
+  SiLinux,
+  SiPython,
+  SiNextdotjs,
+} from "react-icons/si";
+import { DiJava } from "react-icons/di";
+import { FaDatabase, FaCode, FaProjectDiagram, FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
+import {
   Github,
   Linkedin,
   Mail,
@@ -36,6 +55,7 @@ import {
   MapPin,
   Send,
   Loader2,
+  Briefcase,
 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
@@ -162,56 +182,151 @@ export default function Portfolio() {
     }
   }
 
+  // const skills = [
+  //   { name: "Node.js",        icon: SiNodedotjs,      color: "#339933" },
+  //   { name: "Express.js",     icon: SiExpress,        color: "#000000" },
+  //   { name: "HTML5",          icon: SiHtml5,          color: "#E34F26" },
+  //   { name: "CSS3",           icon: SiCss3,           color: "#1572B6" },
+  //   { name: "Bootstrap",      icon: SiBootstrap,      color: "#7952B3" },
+  //   { name: "Tailwind",       icon: SiTailwindcss,    color: "#06B6D4" },
+  //   { name: "ReactJS",        icon: SiReact,          color: "#61DAFB" },
+  //   { name: "Java",           icon: DiJava,           color: "#007396" },
+  //   { name: "JavaScript",     icon: SiJavascript,     color: "#F7DF1E" },
+  //   { name: "MySQL",          icon: SiMysql,          color: "#4479A1" },
+  //   { name: "MongoDB",        icon: SiMongodb,        color: "#47A248" },
+  //   { name: "Git",            icon: SiGit,            color: "#F05032" },
+  //   { name: "Jenkins",        icon: SiJenkins,        color: "#D33833" },
+  //   { name: "Linux",          icon: SiLinux,          color: "#FCC624" },
+  //   { name: "NoSQL",          icon: FaDatabase,       color: "#4A90E2" },
+  //   { name: "Microservices",  icon: FaProjectDiagram, color: "#8B5CF6" },
+  //   { name: "VS Code",        icon: FaCode,           color: "#007ACC" },
+  //   { name: "OOPs",           icon: FaProjectDiagram, color: "#FFB547" },
+  //   { name: "Python",         icon: SiPython,         color: "#3776AB" },
+  //   { name: "Next.js",        icon: SiNextdotjs,      color: "#000000" },
+  // ];
+
   const skills = [
     {
-      name: "React",
-      icon: "FaReact",
-      description: "Building dynamic user interfaces",
-      color: "#61DAFB",
-    },
-    {
-      name: "Next.js",
-      icon: "SiNextdotjs",
-      description: "Full-stack React framework",
-      color: "#000000",
-    },
-    {
-      name: "TypeScript",
-      icon: "SiTypescript",
-      description: "Type-safe JavaScript development",
-      color: "#3178C6",
-    },
-    {
       name: "Node.js",
-      icon: "FaNodeJs",
-      description: "Server-side JavaScript runtime",
+      icon: SiNodedotjs,
+      description: "Event‑driven JavaScript runtime built on Chrome’s V8 engine",
       color: "#339933",
     },
     {
-      name: "MongoDB",
-      icon: "SiMongodb",
-      description: "NoSQL database solutions",
-      color: "#47A248",
+      name: "Express.js",
+      icon: SiExpress,
+      description: "Minimal and flexible Node.js web application framework",
+      color: "#000000",
+    },
+    {
+      name: "HTML5",
+      icon: SiHtml5,
+      description: "The standard markup language for creating web pages",
+      color: "#E34F26",
+    },
+    {
+      name: "CSS3",
+      icon: SiCss3,
+      description: "Styling language used to design web pages",
+      color: "#1572B6",
+    },
+    {
+      name: "Bootstrap",
+      icon: SiBootstrap,
+      description: "Responsive, mobile‑first front‑end component library",
+      color: "#7952B3",
     },
     {
       name: "Tailwind CSS",
-      icon: "SiTailwindcss",
-      description: "Utility-first CSS framework",
+      icon: SiTailwindcss,
+      description: "Utility‑first CSS framework for rapid UI development",
       color: "#06B6D4",
     },
     {
+      name: "ReactJS",
+      icon: SiReact,
+      description: "Library for building composable and reactive UIs",
+      color: "#61DAFB",
+    },
+    {
+      name: "Java",
+      icon: DiJava,
+      description: "Statically typed, class‑based programming language",
+      color: "#007396",
+    },
+    {
+      name: "JavaScript",
+      icon: SiJavascript,
+      description: "High‑level, dynamic scripting language of the Web",
+      color: "#F7DF1E",
+    },
+    {
+      name: "MySQL",
+      icon: SiMysql,
+      description: "Open‑source relational database management system",
+      color: "#4479A1",
+    },
+    {
+      name: "MongoDB",
+      icon: SiMongodb,
+      description: "Document‑oriented NoSQL database",
+      color: "#47A248",
+    },
+    {
+      name: "Git",
+      icon: SiGit,
+      description: "Distributed version‑control system for tracking code",
+      color: "#F05032",
+    },
+    {
+      name: "Jenkins",
+      icon: SiJenkins,
+      description: "Automation server for continuous integration/delivery",
+      color: "#D33833",
+    },
+    {
+      name: "Linux",
+      icon: SiLinux,
+      description: "Open‑source UNIX‑like operating system kernel",
+      color: "#FCC624",
+    },
+    {
+      name: "NoSQL",
+      icon: FaDatabase,
+      description: "Non‑relational database design for flexible schemas",
+      color: "#4A90E2",
+    },
+    {
+      name: "Microservices",
+      icon: FaProjectDiagram,
+      description: "Architectural style for building modular services",
+      color: "#8B5CF6",
+    },
+    {
+      name: "VS Code",
+      icon: FaCode,
+      description: "Lightweight but powerful source code editor",
+      color: "#007ACC",
+    },
+    {
+      name: "OOPs",
+      icon: FaProjectDiagram,
+      description: "Object‑oriented programming principles",
+      color: "#FFB547",
+    },
+    {
       name: "Python",
-      icon: "FaPython",
-      description: "Backend development & AI",
+      icon: SiPython,
+      description: "High‑level programming language for backend & AI",
       color: "#3776AB",
     },
     {
-      name: "Docker",
-      icon: "FaDocker",
-      description: "Containerization platform",
-      color: "#2496ED",
+      name: "Next.js",
+      icon: SiNextdotjs,
+      description: "React framework for hybrid static & server rendering",
+      color: "#000000",
     },
-  ]
+  ];
 
   const offerings = [
     {
@@ -253,41 +368,59 @@ export default function Portfolio() {
   ]
 
   const qualifications = [
+    // {
+    //   type: "Certification",
+    //   title: "Google Cloud Professional",
+    //   institution: "Google Cloud Platform",
+    //   period: "2022",
+    //   location: "Online",
+    //   description: "Professional Cloud Developer certification",
+    //   icon: Award,
+    // },
+    // {
+    //   type: "Course",
+    //   title: "Advanced React & Redux",
+    //   institution: "Tech Academy",
+    //   period: "2021",
+    //   location: "Online",
+    //   description: "Comprehensive course on modern React development",
+    //   icon: BookOpen,
+    // },
     {
       type: "Education",
-      title: "Bachelor of Computer Science",
-      institution: "Your University Name",
-      period: "2018 - 2022",
-      location: "City, Country",
-      description: "Specialized in Software Engineering and Web Technologies",
+      title: "B.Sc. Programme in (Computer Science)",
+      institution: "St. Stephen’s College, University of Delhi",
+      period: "2016 - 2019",
+      location: "Delhi, India",
+      description: "Studied core subjects in Physical Sciences with specialization in Computer Science.",
       icon: BookOpen,
     },
     {
+      type: "Education",
+      title: "Master of Computer Applications (MCA)",
+      institution: "Dept. of Computer Sci., University of Delhi",
+      period: "2020 - 2022",
+      location: "Delhi, India",
+      description: "Focused on Software Development and Full Stack Engineering",
+      icon: BookOpen,
+    },
+    {
+      type: "Internship",
+      title: "Software Development Intern",
+      institution: "Faircent",
+      period: "Jan 2023 - Jun 2023",
+      location: "Gurgaon, India",
+      description: "Worked on real-world software development projects involving frontend and backend technologies.",
+      icon: Briefcase,
+    },
+    {
       type: "Certification",
-      title: "AWS Certified Developer",
+      title: "AWS Certified Developer – Associate",
       institution: "Amazon Web Services",
       period: "2023",
       location: "Online",
-      description: "Associate level certification for cloud development",
+      description: "Validated skills in cloud application development using AWS services",
       icon: Award,
-    },
-    {
-      type: "Certification",
-      title: "Google Cloud Professional",
-      institution: "Google Cloud Platform",
-      period: "2022",
-      location: "Online",
-      description: "Professional Cloud Developer certification",
-      icon: Award,
-    },
-    {
-      type: "Course",
-      title: "Advanced React & Redux",
-      institution: "Tech Academy",
-      period: "2021",
-      location: "Online",
-      description: "Comprehensive course on modern React development",
-      icon: BookOpen,
     },
   ]
 
@@ -360,6 +493,21 @@ export default function Portfolio() {
     },
   ]
 
+  const socialLinks = [
+    {
+      Icon: Github,
+      url: "https://github.com/ankujpandey",
+    },
+    {
+      Icon: Linkedin,
+      url: "https://www.linkedin.com/in/ankujpandey", // Replace with your actual LinkedIn
+    },
+    {
+      Icon: Mail,
+      url: "mailto:ankuj.mca20.du@gmail.com", // Replace with your actual email
+    },
+  ];
+
   const nextImage = (projectIndex: number) => {
     setProjectCarousels((prev) => ({
       ...prev,
@@ -428,21 +576,28 @@ export default function Portfolio() {
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex space-x-8">
-              {["home", "about", "skills", "offerings", "projects", "qualifications", "experience", "contact"].map(
-                (item) => (
-                  <button
-                    key={item}
-                    onClick={() => scrollToSection(item)}
-                    className={`capitalize transition-all duration-200 hover:scale-105 ${
-                      activeSection === item
-                        ? `${isDarkMode ? "text-amber-400 font-medium transform scale-105" : "text-orange-600 font-medium transform scale-105"}`
-                        : `${isDarkMode ? "text-slate-300 hover:text-amber-400" : "text-slate-600 hover:text-orange-600"}`
-                    }`}
-                  >
-                    {item}
-                  </button>
-                ),
-              )}
+              {[
+                "home",
+                "about",
+                "skills",
+                "offerings",
+                "projects",
+                "qualifications",
+                "experience",
+                "contact",
+              ].map((item) => (
+                <button
+                  key={item}
+                  onClick={() => scrollToSection(item)}
+                  className={`capitalize transition-all duration-200 hover:scale-105 ${
+                    activeSection === item
+                      ? `${isDarkMode ? "text-amber-400 font-medium transform scale-105" : "text-orange-600 font-medium transform scale-105"}`
+                      : `${isDarkMode ? "text-slate-300 hover:text-amber-400" : "text-slate-600 hover:text-orange-600"}`
+                  }`}
+                >
+                  {item}
+                </button>
+              ))}
             </div>
 
             <div className="flex items-center space-x-4">
@@ -455,7 +610,11 @@ export default function Portfolio() {
                     : "bg-orange-100 text-slate-600 hover:bg-orange-200"
                 }`}
               >
-                {isDarkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+                {isDarkMode ? (
+                  <Sun className="h-5 w-5" />
+                ) : (
+                  <Moon className="h-5 w-5" />
+                )}
               </button>
 
               {/* Mobile Menu Button */}
@@ -463,7 +622,11 @@ export default function Portfolio() {
                 className="md:hidden transition-transform duration-200 hover:scale-110"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
               >
-                {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                {isMenuOpen ? (
+                  <X className="h-6 w-6" />
+                ) : (
+                  <Menu className="h-6 w-6" />
+                )}
               </button>
             </div>
           </div>
@@ -475,26 +638,38 @@ export default function Portfolio() {
                 isDarkMode ? "border-slate-700" : "border-orange-200"
               }`}
             >
-              {["home", "about", "skills", "offerings", "projects", "qualifications", "experience", "contact"].map(
-                (item) => (
-                  <button
-                    key={item}
-                    onClick={() => scrollToSection(item)}
-                    className={`block w-full text-left py-2 capitalize transition-colors duration-200 ${
-                      isDarkMode ? "text-slate-300 hover:text-amber-400" : "text-slate-600 hover:text-orange-600"
-                    }`}
-                  >
-                    {item}
-                  </button>
-                ),
-              )}
+              {[
+                "home",
+                "about",
+                "skills",
+                "offerings",
+                "projects",
+                "qualifications",
+                "experience",
+                "contact",
+              ].map((item) => (
+                <button
+                  key={item}
+                  onClick={() => scrollToSection(item)}
+                  className={`block w-full text-left py-2 capitalize transition-colors duration-200 ${
+                    isDarkMode
+                      ? "text-slate-300 hover:text-amber-400"
+                      : "text-slate-600 hover:text-orange-600"
+                  }`}
+                >
+                  {item}
+                </button>
+              ))}
             </div>
           )}
         </div>
       </nav>
 
       {/* Hero Section */}
-      <section id="home" className="pt-16 min-h-screen flex items-center relative overflow-hidden">
+      <section
+        id="home"
+        className="pt-16 min-h-screen flex items-center relative overflow-hidden"
+      >
         <FloatingElements />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 relative z-10">
@@ -516,13 +691,27 @@ export default function Portfolio() {
                       : "bg-gradient-to-r from-emerald-500 to-orange-600"
                   }`}
                 ></div>
-                <Image
-                  src="/placeholder.svg?height=320&width=320"
-                  alt="Ankuj Pandey Profile"
-                  width={320}
-                  height={320}
-                  className="relative z-10 rounded-full border-4 border-white shadow-2xl transform hover:scale-105 transition-transform duration-500"
-                />
+                <div
+                  className="
+                            relative 
+                            w-64 h-64
+                            sm:w-80 sm:h-80
+                            md:w-80 md:h-80
+                            rounded-full
+                            overflow-hidden
+                            border-4 border-white shadow-2xl
+                            transition-transform duration-500
+                            hover:scale-105
+                          "
+                >
+                  <Image
+                    src="/my_image.png"
+                    alt="Ankuj Pandey Profile"
+                    fill
+                    sizes="(max-width: 640px) 192px, (max-width: 768px) 256px, 320px"
+                    className="object-cover [object-position:50%_15%]"
+                  />
+                </div>
 
                 {/* Orbiting Elements */}
                 <div className="absolute inset-0 animate-spin-slow">
@@ -565,7 +754,9 @@ export default function Portfolio() {
                       Hello, I'm
                     </span>
                     <br />
-                    <span className={`animate-slide-in-right ${isDarkMode ? "text-white" : "text-slate-800"}`}>
+                    <span
+                      className={`animate-slide-in-right ${isDarkMode ? "text-white" : "text-slate-800"}`}
+                    >
                       Ankuj Pandey
                     </span>
                   </h1>
@@ -587,8 +778,9 @@ export default function Portfolio() {
                       isDarkMode ? "text-slate-400" : "text-slate-500"
                     }`}
                   >
-                    I craft beautiful, responsive web applications with modern technologies. Passionate about creating
-                    exceptional user experiences and clean, maintainable code.
+                    I craft beautiful, responsive web applications with modern
+                    technologies. Passionate about creating exceptional user
+                    experiences and clean, maintainable code.
                   </p>
                 </div>
               </div>
@@ -620,12 +812,15 @@ export default function Portfolio() {
               </div>
 
               <div className="flex justify-center lg:justify-start space-x-6 animate-fade-in-up animation-delay-800">
-                {[Github, Linkedin, Mail].map((Icon, index) => (
+                {socialLinks.map(({ Icon, url }, index) => (
                   <Link
                     key={index}
-                    href="#"
+                    href={url}
+                    target="_blank"
                     className={`transform hover:scale-125 transition-all duration-300 hover:-translate-y-1 ${
-                      isDarkMode ? "text-slate-400 hover:text-cyan-400" : "text-slate-600 hover:text-orange-600"
+                      isDarkMode
+                        ? "text-slate-400 hover:text-cyan-400"
+                        : "text-slate-600 hover:text-orange-600"
                     }`}
                   >
                     <Icon className="h-6 w-6" />
@@ -639,7 +834,9 @@ export default function Portfolio() {
             <button
               onClick={() => scrollToSection("about")}
               className={`transition-colors duration-300 hover:scale-110 transform ${
-                isDarkMode ? "text-slate-400 hover:text-cyan-400" : "text-slate-400 hover:text-orange-600"
+                isDarkMode
+                  ? "text-slate-400 hover:text-cyan-400"
+                  : "text-slate-400 hover:text-orange-600"
               }`}
             >
               <ChevronDown className="h-8 w-8" />
@@ -655,7 +852,9 @@ export default function Portfolio() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 sm:mb-16">
-            <h2 className={`text-3xl sm:text-4xl font-bold mb-4 ${isDarkMode ? "text-white" : "text-slate-800"}`}>
+            <h2
+              className={`text-3xl sm:text-4xl font-bold mb-4 ${isDarkMode ? "text-white" : "text-slate-800"}`}
+            >
               About Me
             </h2>
             <div
@@ -669,29 +868,46 @@ export default function Portfolio() {
 
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             <div className="space-y-6 order-2 lg:order-1">
-              <p className={`text-base sm:text-lg leading-relaxed ${isDarkMode ? "text-slate-300" : "text-slate-600"}`}>
-                I'm a passionate full-stack web developer with over 4 years of experience creating digital solutions
-                that make a difference. I specialize in modern JavaScript frameworks and have a keen eye for design and
-                user experience.
+              <p
+                className={`text-base sm:text-lg leading-relaxed ${isDarkMode ? "text-slate-300" : "text-slate-600"}`}
+              >
+                I'm a passionate <strong>full-stack web developer</strong> with
+                a strong grasp of both frontend and backend technologies. I
+                specialize in{" "}
+                <strong>React, Next.js, Node.js, and MongoDB</strong>, and enjoy
+                building robust, scalable, and maintainable applications.
               </p>
-              <p className={`text-base sm:text-lg leading-relaxed ${isDarkMode ? "text-slate-300" : "text-slate-600"}`}>
-                When I'm not coding, you can find me exploring new technologies, contributing to open-source projects,
-                or sharing knowledge with the developer community. I believe in writing clean, maintainable code and
-                creating applications that users love.
+              <p
+                className={`text-base sm:text-lg leading-relaxed ${isDarkMode ? "text-slate-300" : "text-slate-600"}`}
+              >
+                I'm always eager to learn new technologies and continuously
+                improve my development skills while focusing on delivering clean
+                code and impactful user experiences.
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-8">
                 {[
-                  { label: "Location", value: "Your City, Country" },
-                  { label: "Experience", value: "4+ Years" },
-                  { label: "Email", value: "ankuj.pandey@example.com" },
+                  { label: "Location", value: "Gurugram, India" },
+                  { label: "Experience", value: "2+ Years" },
+                  { label: "Email", value: "ankuj.mca20.du@gmail.com" },
                   { label: "Availability", value: "Open to opportunities" },
                 ].map((item, index) => (
-                  <div key={index} className="transform hover:scale-105 transition-transform duration-300">
-                    <h3 className={`font-semibold mb-2 ${isDarkMode ? "text-white" : "text-slate-800"}`}>
+                  <div
+                    key={index}
+                    className="transform hover:scale-105 transition-transform duration-300"
+                  >
+                    <h3
+                      className={`font-semibold mb-2 ${isDarkMode ? "text-white" : "text-slate-800"}`}
+                    >
                       {item.label}
                     </h3>
-                    <p className={isDarkMode ? "text-slate-300" : "text-slate-600"}>{item.value}</p>
+                    <p
+                      className={
+                        isDarkMode ? "text-slate-300" : "text-slate-600"
+                      }
+                    >
+                      {item.value}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -726,7 +942,9 @@ export default function Portfolio() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 sm:mb-16">
-            <h2 className={`text-3xl sm:text-4xl font-bold mb-4 ${isDarkMode ? "text-white" : "text-slate-800"}`}>
+            <h2
+              className={`text-3xl sm:text-4xl font-bold mb-4 ${isDarkMode ? "text-white" : "text-slate-800"}`}
+            >
               Skills & Technologies
             </h2>
             <div
@@ -743,7 +961,9 @@ export default function Portfolio() {
               <Card
                 key={index}
                 className={`border-0 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 group ${
-                  isDarkMode ? "bg-slate-800 hover:bg-slate-700" : "bg-white hover:bg-orange-50"
+                  isDarkMode
+                    ? "bg-slate-800 hover:bg-slate-700"
+                    : "bg-white hover:bg-orange-50"
                 }`}
                 style={{ animationDelay: `${index * 100}ms` }}
               >
@@ -753,7 +973,7 @@ export default function Portfolio() {
                       className="w-12 h-12 sm:w-16 sm:h-16 mx-auto rounded-lg flex items-center justify-center text-2xl sm:text-3xl font-bold text-white"
                       style={{ backgroundColor: skill.color }}
                     >
-                      {skill.name.charAt(0)}
+                      {<skill.icon /> || skill.name.charAt(0)}
                     </div>
                   </div>
                   <h3
@@ -761,20 +981,14 @@ export default function Portfolio() {
                   >
                     {skill.name}
                   </h3>
-                  <p className={`text-xs sm:text-sm ${isDarkMode ? "text-slate-400" : "text-slate-600"}`}>
+                  <p
+                    className={`text-xs sm:text-sm ${isDarkMode ? "text-slate-400" : "text-slate-600"}`}
+                  >
                     {skill.description}
                   </p>
                 </CardContent>
               </Card>
             ))}
-          </div>
-
-          <div className="mt-8 text-center">
-            <p className={`text-sm ${isDarkMode ? "text-slate-400" : "text-slate-500"}`}>
-              💡 <strong>Tip:</strong> Install{" "}
-              <code className="bg-slate-200 dark:bg-slate-700 px-2 py-1 rounded text-xs">npm install react-icons</code>{" "}
-              to use beautiful skill logos!
-            </p>
           </div>
         </div>
       </section>
@@ -786,7 +1000,9 @@ export default function Portfolio() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 sm:mb-16">
-            <h2 className={`text-3xl sm:text-4xl font-bold mb-4 ${isDarkMode ? "text-white" : "text-slate-800"}`}>
+            <h2
+              className={`text-3xl sm:text-4xl font-bold mb-4 ${isDarkMode ? "text-white" : "text-slate-800"}`}
+            >
               What I Offer
             </h2>
             <div
@@ -796,20 +1012,24 @@ export default function Portfolio() {
                   : "bg-gradient-to-r from-orange-600 to-rose-600"
               }`}
             ></div>
-            <p className={`mt-6 text-lg max-w-3xl mx-auto ${isDarkMode ? "text-slate-300" : "text-slate-600"}`}>
-              Comprehensive web development services tailored to bring your ideas to life with modern technologies and
-              best practices.
+            <p
+              className={`mt-6 text-lg max-w-3xl mx-auto ${isDarkMode ? "text-slate-300" : "text-slate-600"}`}
+            >
+              Comprehensive web development services tailored to bring your
+              ideas to life with modern technologies and best practices.
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {offerings.map((offering, index) => {
-              const IconComponent = offering.icon
+              const IconComponent = offering.icon;
               return (
                 <Card
                   key={index}
                   className={`border-0 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 group ${
-                    isDarkMode ? "bg-slate-800 hover:bg-slate-700" : "bg-white hover:bg-orange-50"
+                    isDarkMode
+                      ? "bg-slate-800 hover:bg-slate-700"
+                      : "bg-white hover:bg-orange-50"
                   }`}
                 >
                   <CardContent className="p-6">
@@ -820,26 +1040,36 @@ export default function Portfolio() {
                           : "bg-gradient-to-r from-orange-100 to-rose-100"
                       }`}
                     >
-                      <IconComponent className={`h-6 w-6 ${isDarkMode ? "text-cyan-600" : "text-orange-600"}`} />
+                      <IconComponent
+                        className={`h-6 w-6 ${isDarkMode ? "text-cyan-600" : "text-orange-600"}`}
+                      />
                     </div>
-                    <h3 className={`text-xl font-semibold mb-3 ${isDarkMode ? "text-white" : "text-slate-800"}`}>
+                    <h3
+                      className={`text-xl font-semibold mb-3 ${isDarkMode ? "text-white" : "text-slate-800"}`}
+                    >
                       {offering.title}
                     </h3>
-                    <p className={`mb-4 ${isDarkMode ? "text-slate-300" : "text-slate-600"}`}>{offering.description}</p>
+                    <p
+                      className={`mb-4 ${isDarkMode ? "text-slate-300" : "text-slate-600"}`}
+                    >
+                      {offering.description}
+                    </p>
                     <ul className="space-y-2">
                       {offering.features.map((feature, featureIndex) => (
                         <li
                           key={featureIndex}
                           className={`flex items-center text-sm ${isDarkMode ? "text-slate-400" : "text-slate-500"}`}
                         >
-                          <Target className={`h-3 w-3 mr-2 ${isDarkMode ? "text-cyan-400" : "text-orange-500"}`} />
+                          <Target
+                            className={`h-3 w-3 mr-2 ${isDarkMode ? "text-cyan-400" : "text-orange-500"}`}
+                          />
                           {feature}
                         </li>
                       ))}
                     </ul>
                   </CardContent>
                 </Card>
-              )
+              );
             })}
           </div>
         </div>
@@ -852,7 +1082,9 @@ export default function Portfolio() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 sm:mb-16">
-            <h2 className={`text-3xl sm:text-4xl font-bold mb-4 ${isDarkMode ? "text-white" : "text-slate-800"}`}>
+            <h2
+              className={`text-3xl sm:text-4xl font-bold mb-4 ${isDarkMode ? "text-white" : "text-slate-800"}`}
+            >
               Featured Projects
             </h2>
             <div
@@ -903,9 +1135,16 @@ export default function Portfolio() {
                           {project.images.map((_, imgIndex) => (
                             <button
                               key={imgIndex}
-                              onClick={() => setProjectCarousels((prev) => ({ ...prev, [index]: imgIndex }))}
+                              onClick={() =>
+                                setProjectCarousels((prev) => ({
+                                  ...prev,
+                                  [index]: imgIndex,
+                                }))
+                              }
                               className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                                (projectCarousels[index] || 0) === imgIndex ? "bg-white" : "bg-white/50"
+                                (projectCarousels[index] || 0) === imgIndex
+                                  ? "bg-white"
+                                  : "bg-white/50"
                               }`}
                             />
                           ))}
@@ -935,7 +1174,9 @@ export default function Portfolio() {
                         key={techIndex}
                         variant="secondary"
                         className={`text-xs ${
-                          isDarkMode ? "bg-slate-700 text-slate-300" : "bg-orange-100 text-orange-700"
+                          isDarkMode
+                            ? "bg-slate-700 text-slate-300"
+                            : "bg-orange-100 text-orange-700"
                         }`}
                       >
                         {tech}
@@ -955,7 +1196,13 @@ export default function Portfolio() {
                       <ExternalLink className="mr-2 h-3 w-3" />
                       Live Demo
                     </Button>
-                    <Button variant="outline" size="sm" className={isDarkMode ? "border-slate-600 text-slate-300" : ""}>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className={
+                        isDarkMode ? "border-slate-600 text-slate-300" : ""
+                      }
+                    >
                       <Github className="h-3 w-3" />
                     </Button>
                   </div>
@@ -973,7 +1220,9 @@ export default function Portfolio() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 sm:mb-16">
-            <h2 className={`text-3xl sm:text-4xl font-bold mb-4 ${isDarkMode ? "text-white" : "text-slate-800"}`}>
+            <h2
+              className={`text-3xl sm:text-4xl font-bold mb-4 ${isDarkMode ? "text-white" : "text-slate-800"}`}
+            >
               Education & Certifications
             </h2>
             <div
@@ -988,7 +1237,7 @@ export default function Portfolio() {
           <div className="max-w-4xl mx-auto">
             <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
               {qualifications.map((qual, index) => {
-                const IconComponent = qual.icon
+                const IconComponent = qual.icon;
                 return (
                   <Card
                     key={index}
@@ -1005,7 +1254,9 @@ export default function Portfolio() {
                               : "bg-gradient-to-r from-orange-100 to-rose-100"
                           }`}
                         >
-                          <IconComponent className={`h-6 w-6 ${isDarkMode ? "text-cyan-600" : "text-orange-600"}`} />
+                          <IconComponent
+                            className={`h-6 w-6 ${isDarkMode ? "text-cyan-600" : "text-orange-600"}`}
+                          />
                         </div>
                         <div className="flex-1">
                           <div className="flex items-center justify-between mb-2">
@@ -1019,10 +1270,14 @@ export default function Portfolio() {
                               {qual.period}
                             </div>
                           </div>
-                          <h3 className={`text-lg font-semibold mb-1 ${isDarkMode ? "text-white" : "text-slate-800"}`}>
+                          <h3
+                            className={`text-lg font-semibold mb-1 ${isDarkMode ? "text-white" : "text-slate-800"}`}
+                          >
                             {qual.title}
                           </h3>
-                          <p className={`font-medium mb-2 ${isDarkMode ? "text-cyan-400" : "text-orange-600"}`}>
+                          <p
+                            className={`font-medium mb-2 ${isDarkMode ? "text-cyan-400" : "text-orange-600"}`}
+                          >
                             {qual.institution}
                           </p>
                           <div
@@ -1031,14 +1286,16 @@ export default function Portfolio() {
                             <MapPin className="h-3 w-3 mr-1" />
                             {qual.location}
                           </div>
-                          <p className={`text-sm ${isDarkMode ? "text-slate-300" : "text-slate-600"}`}>
+                          <p
+                            className={`text-sm ${isDarkMode ? "text-slate-300" : "text-slate-600"}`}
+                          >
                             {qual.description}
                           </p>
                         </div>
                       </div>
                     </CardContent>
                   </Card>
-                )
+                );
               })}
             </div>
           </div>
@@ -1052,7 +1309,9 @@ export default function Portfolio() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 sm:mb-16">
-            <h2 className={`text-3xl sm:text-4xl font-bold mb-4 ${isDarkMode ? "text-white" : "text-slate-800"}`}>
+            <h2
+              className={`text-3xl sm:text-4xl font-bold mb-4 ${isDarkMode ? "text-white" : "text-slate-800"}`}
+            >
               Work Experience
             </h2>
             <div
@@ -1100,7 +1359,10 @@ export default function Portfolio() {
                         >
                           {exp.title}
                         </h3>
-                        <Badge variant="outline" className="w-fit mt-2 sm:mt-0 text-xs sm:text-sm">
+                        <Badge
+                          variant="outline"
+                          className="w-fit mt-2 sm:mt-0 text-xs sm:text-sm"
+                        >
                           {exp.period}
                         </Badge>
                       </div>
@@ -1132,7 +1394,9 @@ export default function Portfolio() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 sm:mb-16">
-            <h2 className={`text-3xl sm:text-4xl font-bold mb-4 ${isDarkMode ? "text-white" : "text-slate-800"}`}>
+            <h2
+              className={`text-3xl sm:text-4xl font-bold mb-4 ${isDarkMode ? "text-white" : "text-slate-800"}`}
+            >
               Get In Touch
             </h2>
             <div
@@ -1142,8 +1406,11 @@ export default function Portfolio() {
                   : "bg-gradient-to-r from-orange-600 to-rose-600"
               }`}
             ></div>
-            <p className={`text-base sm:text-lg max-w-2xl mx-auto ${isDarkMode ? "text-slate-300" : "text-slate-600"}`}>
-              I'm always interested in new opportunities and exciting projects. Let's discuss how we can work together!
+            <p
+              className={`text-base sm:text-lg max-w-2xl mx-auto ${isDarkMode ? "text-slate-300" : "text-slate-600"}`}
+            >
+              I'm always interested in new opportunities and exciting projects.
+              Let's discuss how we can work together!
             </p>
           </div>
 
@@ -1151,9 +1418,21 @@ export default function Portfolio() {
             <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
               <div className="space-y-6 sm:space-y-8">
                 {[
-                  { icon: Mail, title: "Email", value: "ankuj.pandey@example.com" },
-                  { icon: Linkedin, title: "LinkedIn", value: "linkedin.com/in/ankujpandey" },
-                  { icon: Github, title: "GitHub", value: "github.com/ankujpandey" },
+                  {
+                    icon: Mail,
+                    title: "Email",
+                    value: "ankuj.pandey@example.com",
+                  },
+                  {
+                    icon: Linkedin,
+                    title: "LinkedIn",
+                    value: "linkedin.com/in/ankujpandey",
+                  },
+                  {
+                    icon: Github,
+                    title: "GitHub",
+                    value: "github.com/ankujpandey",
+                  },
                 ].map((contact, index) => (
                   <div
                     key={index}
@@ -1171,10 +1450,14 @@ export default function Portfolio() {
                       />
                     </div>
                     <div>
-                      <h3 className={`font-semibold ${isDarkMode ? "text-white" : "text-slate-800"}`}>
+                      <h3
+                        className={`font-semibold ${isDarkMode ? "text-white" : "text-slate-800"}`}
+                      >
                         {contact.title}
                       </h3>
-                      <p className={`text-sm sm:text-base ${isDarkMode ? "text-slate-300" : "text-slate-600"}`}>
+                      <p
+                        className={`text-sm sm:text-base ${isDarkMode ? "text-slate-300" : "text-slate-600"}`}
+                      >
                         {contact.value}
                       </p>
                     </div>
@@ -1188,7 +1471,10 @@ export default function Portfolio() {
                 }`}
               >
                 <CardContent className="p-6 sm:p-8">
-                  <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+                  <form
+                    onSubmit={handleSubmit}
+                    className="space-y-4 sm:space-y-6"
+                  >
                     <div>
                       <label
                         className={`block text-sm font-medium mb-2 ${isDarkMode ? "text-slate-300" : "text-slate-700"}`}
@@ -1198,7 +1484,9 @@ export default function Portfolio() {
                       <input
                         type="text"
                         value={formData.name}
-                        onChange={(e) => handleInputChange("name", e.target.value)}
+                        onChange={(e) =>
+                          handleInputChange("name", e.target.value)
+                        }
                         className={`w-full px-4 py-3 border rounded-lg transition-all duration-300 ${
                           formErrors.name.length > 0
                             ? "border-red-500 focus:ring-red-500"
@@ -1209,7 +1497,11 @@ export default function Portfolio() {
                         placeholder="Your Name"
                         disabled={isSubmitting}
                       />
-                      {formErrors.name.length > 0 && <p className="text-red-500 text-xs mt-1">{formErrors.name[0]}</p>}
+                      {formErrors.name.length > 0 && (
+                        <p className="text-red-500 text-xs mt-1">
+                          {formErrors.name[0]}
+                        </p>
+                      )}
                     </div>
 
                     <div>
@@ -1221,7 +1513,9 @@ export default function Portfolio() {
                       <input
                         type="email"
                         value={formData.email}
-                        onChange={(e) => handleInputChange("email", e.target.value)}
+                        onChange={(e) =>
+                          handleInputChange("email", e.target.value)
+                        }
                         className={`w-full px-4 py-3 border rounded-lg transition-all duration-300 ${
                           formErrors.email.length > 0
                             ? "border-red-500 focus:ring-red-500"
@@ -1233,7 +1527,9 @@ export default function Portfolio() {
                         disabled={isSubmitting}
                       />
                       {formErrors.email.length > 0 && (
-                        <p className="text-red-500 text-xs mt-1">{formErrors.email[0]}</p>
+                        <p className="text-red-500 text-xs mt-1">
+                          {formErrors.email[0]}
+                        </p>
                       )}
                     </div>
 
@@ -1246,7 +1542,9 @@ export default function Portfolio() {
                       <textarea
                         rows={4}
                         value={formData.message}
-                        onChange={(e) => handleInputChange("message", e.target.value)}
+                        onChange={(e) =>
+                          handleInputChange("message", e.target.value)
+                        }
                         className={`w-full px-4 py-3 border rounded-lg transition-all duration-300 resize-none ${
                           formErrors.message.length > 0
                             ? "border-red-500 focus:ring-red-500"
@@ -1258,9 +1556,13 @@ export default function Portfolio() {
                         disabled={isSubmitting}
                       />
                       {formErrors.message.length > 0 && (
-                        <p className="text-red-500 text-xs mt-1">{formErrors.message[0]}</p>
+                        <p className="text-red-500 text-xs mt-1">
+                          {formErrors.message[0]}
+                        </p>
                       )}
-                      <p className={`text-xs mt-1 ${isDarkMode ? "text-slate-400" : "text-slate-500"}`}>
+                      <p
+                        className={`text-xs mt-1 ${isDarkMode ? "text-slate-400" : "text-slate-500"}`}
+                      >
                         {formData.message.length}/1000 characters
                       </p>
                     </div>
@@ -1295,7 +1597,9 @@ export default function Portfolio() {
       </section>
 
       {/* Footer */}
-      <footer className={`py-8 sm:py-12 ${isDarkMode ? "bg-slate-900" : "bg-slate-900"} text-white`}>
+      <footer
+        className={`py-8 sm:py-12 ${isDarkMode ? "bg-slate-900" : "bg-slate-900"} text-white`}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <div
@@ -1329,5 +1633,5 @@ export default function Portfolio() {
         </div>
       </footer>
     </div>
-  )
+  );
 }
