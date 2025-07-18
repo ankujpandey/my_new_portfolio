@@ -67,6 +67,10 @@ export default function Portfolio() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [projectCarousels, setProjectCarousels] = useState<{ [key: number]: number }>({})
 
+  const [flippedCards, setFlippedCards] = useState<{ [key: number]: boolean }>({})
+  const [expandedExperience, setExpandedExperience] = useState<{ [key: number]: boolean }>({})
+  const [expandedProjects, setExpandedProjects] = useState<{ [key: string]: boolean }>({})
+
   // Form state
   const [formData, setFormData] = useState({
     name: "",
@@ -180,6 +184,28 @@ export default function Portfolio() {
     } finally {
       setIsSubmitting(false)
     }
+  }
+
+  const toggleCardFlip = (index: number) => {
+    setFlippedCards((prev) => ({
+      ...prev,
+      [index]: !prev[index],
+    }))
+  }
+
+  const toggleExperience = (index: number) => {
+    setExpandedExperience((prev) => ({
+      ...prev,
+      [index]: !prev[index],
+    }))
+  }
+
+  const toggleProject = (experienceIndex: number, projectIndex: number) => {
+    const key = `${experienceIndex}-${projectIndex}`
+    setExpandedProjects((prev) => ({
+      ...prev,
+      [key]: !prev[key],
+    }))
   }
 
   // const skills = [
@@ -330,62 +356,70 @@ export default function Portfolio() {
 
   const offerings = [
     {
-      icon: Code,
-      title: "Frontend Development",
-      description: "Modern, responsive web applications using React, Next.js, and cutting-edge technologies.",
-      features: ["React & Next.js", "Responsive Design", "Performance Optimization", "Modern UI/UX"],
-    },
-    {
       icon: Server,
       title: "Backend Development",
-      description: "Scalable server-side solutions with robust APIs and database management.",
-      features: ["RESTful APIs", "Database Design", "Authentication", "Cloud Integration"],
-    },
-    {
-      icon: Smartphone,
-      title: "Mobile Development",
-      description: "Cross-platform mobile applications with native performance and user experience.",
-      features: ["React Native", "Cross-platform", "Native Performance", "App Store Deployment"],
-    },
-    {
-      icon: Palette,
-      title: "UI/UX Design",
-      description: "User-centered design approach creating intuitive and engaging digital experiences.",
-      features: ["User Research", "Wireframing", "Prototyping", "Design Systems"],
+      description:
+        "I design robust, scalable backend systems using Node.js and Express.js, focusing on modularity, performance, and maintainability.",
+      features: [
+        "Custom REST APIs",
+        "Loan & EMI Engines",
+        "Microservices Architecture",
+        "Secure Data Handling & Verification",
+      ],
     },
     {
       icon: Zap,
-      title: "Performance Optimization",
-      description: "Speed up your applications with advanced optimization techniques and best practices.",
-      features: ["Code Splitting", "Lazy Loading", "SEO Optimization", "Core Web Vitals"],
+      title: "System Integration & Automation",
+      description:
+        "I streamline business workflows through third‑party API integrations—like PAN, GST, ITR & EPFO verifications, Cashfree payment gateway, CKYC/mandate processing, and automated offer & risk engines—to boost efficiency and reliability.",
+      features: [
+        "API orchestration & versioning",
+        "Webhook & event-driven pipelines",
+        "Scheduled jobs & retry logic",
+        "Error handling & alerting",
+        "Data transformation & syncing",
+      ],
     },
     {
-      icon: Users,
-      title: "Consulting & Mentoring",
-      description: "Technical guidance and mentorship for teams and individual developers.",
-      features: ["Code Reviews", "Architecture Planning", "Team Training", "Best Practices"],
-    },
-  ]
+      icon: Code,
+      title: "Modern Frontend Engineering",
+      description:
+        "I build clean, responsive, and accessible interfaces with React and Next.js—leveraging SSR/SSG, component-driven design, and Tailwind CSS—to deliver high‑performance dashboards and user experiences.",
+      features: [
+        "React & Next.js",
+        "Responsive Design",
+        "Performance Optimization",
+        "Modern UI/UX",
+      ],
+    },    
+    // {
+    //   icon: Smartphone,
+    //   title: "Product Development",
+    //   description:
+    //     "I turn ideas into functional full-stack products, from rapid MVPs to complex applications, with a focus on usability and scalability.",
+    //   features: [
+    //     "End-to-End App Design",
+    //     "Whisper Wave & Projexure",
+    //     "Full-Stack Architecture",
+    //     "Rapid Prototyping & Deployment",
+    //   ],
+    // },
+    // {
+    //   icon: Users,
+    //   title: "Tech Consulting",
+    //   description:
+    //     "I guide early-stage teams in setting up clean codebases, secure backend logic, and scalable project architecture.",
+    //   features: [
+    //     "Code Structure & Patterns",
+    //     "API & Auth Strategy",
+    //     "Documentation & Handoff",
+    //     "Best Practices Implementation",
+    //   ],
+    // },
+  ];  
+  
 
   const qualifications = [
-    // {
-    //   type: "Certification",
-    //   title: "Google Cloud Professional",
-    //   institution: "Google Cloud Platform",
-    //   period: "2022",
-    //   location: "Online",
-    //   description: "Professional Cloud Developer certification",
-    //   icon: Award,
-    // },
-    // {
-    //   type: "Course",
-    //   title: "Advanced React & Redux",
-    //   institution: "Tech Academy",
-    //   period: "2021",
-    //   location: "Online",
-    //   description: "Comprehensive course on modern React development",
-    //   icon: BookOpen,
-    // },
     {
       type: "Education",
       title: "B.Sc. Programme in (Computer Science)",
@@ -394,6 +428,9 @@ export default function Portfolio() {
       location: "Delhi, India",
       description: "Studied core subjects in Physical Sciences with specialization in Computer Science.",
       icon: BookOpen,
+      certificateImages: [
+        "/placeholder.svg?height=400&width=600&text=Degree+Certificate",
+      ],
     },
     {
       type: "Education",
@@ -403,6 +440,9 @@ export default function Portfolio() {
       location: "Delhi, India",
       description: "Focused on Software Development and Full Stack Engineering",
       icon: BookOpen,
+      certificateImages: [
+        "/placeholder.svg?height=400&width=600&text=Degree+Certificate",
+      ],
     },
     {
       type: "Internship",
@@ -412,6 +452,9 @@ export default function Portfolio() {
       location: "Gurgaon, India",
       description: "Worked on real-world software development projects involving frontend and backend technologies.",
       icon: Briefcase,
+      certificateImages: [
+        "/placeholder.svg?height=400&width=600&text=Degree+Certificate",
+      ],
     },
     {
       type: "Certification",
@@ -421,6 +464,9 @@ export default function Portfolio() {
       location: "Online",
       description: "Validated skills in cloud application development using AWS services",
       icon: Award,
+      certificateImages: [
+        "/placeholder.svg?height=400&width=600&text=Degree+Certificate",
+      ],
     },
   ]
 
@@ -471,27 +517,116 @@ export default function Portfolio() {
 
   const experience = [
     {
-      title: "Senior Frontend Developer",
-      company: "Tech Solutions Inc.",
-      period: "2022 - Present",
+      title: "Software Developer",
+      company: "Fairassets Technologies India Pvt Ltd",
+      period: "Jul 2023 - Present",
       description:
-        "Led development of multiple client projects using React and Next.js. Mentored junior developers and implemented best practices for code quality.",
+        "Developed and enhanced multiple loan management and verification modules, improving EMI workflows and credit risk assessment pipelines.",
+      shortDescription:
+        "Full-stack development for loan workflows, automation systems, and real estate platform integration.",
+      fullDescription:
+        "At Fairassets, I built scalable backend systems and user interfaces for financial products, streamlining credit evaluation, borrower onboarding, and EMI deductions. I engineered key services like CKYC automation, mandate processing, PAN/GST/ITR verification, and real-time offer generation. I also contributed to the development of 'Fairkeys' — a real estate sub-product — working on tenant risk policies and admin modules.",
+      techStack: [
+        "Node.js",
+        "Express.js",
+        "React",
+        "MongoDB",
+        "MySQL",
+        "AWS",
+        "Cashfree API",
+        "Karza API",
+        "IDCentral",
+        "Tailwind CSS",
+        "Next.js",
+      ],
+      detailedProjects: [
+        {
+          title: "EMI Deduction & Statement System",
+          period: "Jul 2023 - Oct 2023",
+          description:
+            "Built a more reliable and accurate EMI deduction engine and redesigned the borrower passbook and SOA systems.",
+          outcome:
+            "Improved EMI success rate and reduced error logs, leading to better customer experience.",
+          techStack: ["Node.js", "MySQL", "AWS", "React", "Cron Jobs"],
+        },
+        {
+          title: "Credit Verification Rule Engine",
+          period: "Sep 2023 - Dec 2023",
+          description:
+            "Created a custom rule engine using Experian and CRIF data for assessing user eligibility and fraud checks.",
+          outcome: "Increased successful verifications by 50% and reduced fraudulent entries.",
+          techStack: ["Node.js", "MongoDB", "Karza API", "Experian API"],
+        },
+        {
+          title: "PAN, GST, ITR, EPFO Verifications",
+          period: "Nov 2023 - Jan 2024",
+          description:
+            "Integrated government document verification APIs to assess borrowers' compliance and financial stability.",
+          outcome:
+            "Streamlined onboarding by reducing manual verification overhead.",
+          techStack: ["IDCentral API", "Karza API", "Node.js", "AWS"],
+        },
+        {
+          title: "Fairkeys Real Estate Platform",
+          period: "Feb 2024 - Present",
+          description:
+            "Worked on user registration, email notifications, and risk assessment logic for real estate tenants.",
+          outcome:
+            "Improved property onboarding experience and automated validation workflows.",
+          techStack: ["React", "Node.js", "MongoDB", "AWS SES", "Next.js"],
+        },
+        {
+          title: "Offer Generator System",
+          period: "Mar 2024 - May 2024",
+          description:
+            "Built backend logic to dynamically calculate loan offers, interest, tenure, and processing fees.",
+          outcome:
+            "Automated end-to-end loan offering pipeline, saving manual computation time.",
+          techStack: ["Node.js", "Express", "MongoDB"],
+        },
+      ],
     },
     {
-      title: "Full Stack Developer",
-      company: "Digital Agency Co.",
-      period: "2020 - 2022",
+      title: "Software Developer Intern",
+      company: "Fairassets Technologies India Pvt Ltd",
+      period: "Jan 2023 - Jul 2023",
       description:
-        "Developed and maintained web applications using MERN stack. Collaborated with design teams to create responsive and user-friendly interfaces.",
+        "Built borrower platform features from scratch, including onboarding, dashboards, EMI calculators, and admin management tools.",
+      shortDescription:
+        "End-to-end development of borrower web app and admin dashboard for loan management.",
+      fullDescription:
+        "During my internship, I led the frontend and backend development for borrower onboarding and dashboard modules. I integrated Aadhaar and biometric verification, built EMI calculator functionality, and enabled admins to manage loans and generate PDF reports. I also built wallet tracking, profile management, and agent control tools.",
+      techStack: [
+        "React",
+        "Node.js",
+        "Express.js",
+        "MongoDB",
+        "Tailwind CSS",
+        "ID Analyzer API",
+        "PDFKit",
+      ],
+      detailedProjects: [
+        {
+          title: "Borrower Web Platform",
+          period: "Jan 2023 - Apr 2023",
+          description:
+            "Developed borrower onboarding flows, authentication, and EMI calculators with biometric verification integration.",
+          outcome: "Enabled secure user registration and enhanced eligibility checks.",
+          techStack: ["React", "Tailwind", "ID Analyzer", "Node.js"],
+        },
+        {
+          title: "Admin Dashboard for Loan Operations",
+          period: "Apr 2023 - Jul 2023",
+          description:
+            "Built tools for loan monitoring, agent management, and PDF generation of borrower profiles.",
+          outcome:
+            "Reduced operational friction for internal teams and improved transparency of borrower data.",
+          techStack: ["React", "Node.js", "MongoDB", "PDFKit"],
+        },
+      ],
     },
-    {
-      title: "Junior Web Developer",
-      company: "StartUp Ventures",
-      period: "2019 - 2020",
-      description:
-        "Built responsive websites and web applications. Gained experience in modern JavaScript frameworks and backend technologies.",
-    },
-  ]
+  ];
+  
 
   const socialLinks = [
     {
@@ -914,23 +1049,27 @@ export default function Portfolio() {
             </div>
 
             <div className="relative order-1 lg:order-2">
-              <div className="relative transform hover:scale-105 transition-transform duration-500 max-w-md mx-auto lg:max-w-none">
-                <Image
-                  src="/placeholder.svg?height=400&width=500"
-                  alt="About Ankuj Pandey"
-                  width={500}
-                  height={400}
-                  className="rounded-lg shadow-xl w-full h-auto object-cover"
-                />
-                <div
-                  className={`absolute inset-0 rounded-lg ${
-                    isDarkMode
-                      ? "bg-gradient-to-t from-cyan-600/20 to-transparent"
-                      : "bg-gradient-to-t from-orange-600/20 to-transparent"
-                  }`}
-                ></div>
-              </div>
-            </div>
+  <div className="relative transform hover:scale-105 transition-transform duration-500 max-w-md mx-auto shadow-xl overflow-hidden rounded-lg lg:max-w-none">
+    <video
+      src="/developer1.mp4"
+      width={500}
+      height={400}
+      className="w-full h-auto object-cover"
+      autoPlay
+      loop
+      muted
+      playsInline
+    />
+    <div
+      className={`absolute inset-0 rounded-lg ${
+        isDarkMode
+          ? "bg-gradient-to-t from-cyan-600/20 to-transparent"
+          : "bg-gradient-to-t from-orange-600/20 to-transparent"
+      }`}
+    />
+  </div>
+</div>
+
           </div>
         </div>
       </section>
@@ -1214,7 +1353,7 @@ export default function Portfolio() {
       </section>
 
       {/* Qualifications Section */}
-      <section
+      {/* <section
         id="qualifications"
         className={`py-12 sm:py-20 transition-colors duration-300 ${isDarkMode ? "bg-slate-800/50" : "bg-white"}`}
       >
@@ -1300,10 +1439,205 @@ export default function Portfolio() {
             </div>
           </div>
         </div>
+      </section> */}
+
+      <section
+        id="qualifications"
+        className={`py-12 sm:py-20 transition-colors duration-300 ${isDarkMode ? "bg-slate-800/50" : "bg-white"}`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2
+              className={`text-3xl sm:text-4xl font-bold mb-4 ${isDarkMode ? "text-white" : "text-slate-800"}`}
+            >
+              Education & Certifications
+            </h2>
+            <div
+              className={`w-20 h-1 mx-auto ${
+                isDarkMode
+                  ? "bg-gradient-to-r from-amber-600 to-orange-600"
+                  : "bg-gradient-to-r from-orange-600 to-rose-600"
+              }`}
+            ></div>
+            <p
+              className={`mt-4 text-sm ${isDarkMode ? "text-slate-400" : "text-slate-500"}`}
+            >
+              💡 Click on any card to view certificate details
+            </p>
+          </div>
+
+          <div className="max-w-4xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
+              {qualifications.map((qual, index) => {
+                const IconComponent = qual.icon;
+                const isFlipped = flippedCards[index];
+
+                return (
+                  <div key={index} className="perspective-1000 h-64">
+                    <div
+                      className={`relative w-full h-full transition-transform duration-700 transform-style-preserve-3d cursor-pointer ${
+                        isFlipped ? "rotate-y-180" : ""
+                      }`}
+                      onClick={() => toggleCardFlip(index)}
+                    >
+                      {/* Front of card */}
+                      <Card
+                        className={`absolute inset-0 w-full h-full border-0 shadow-lg hover:shadow-xl transition-all duration-300 backface-hidden ${
+                          isDarkMode ? "bg-slate-800" : "bg-white"
+                        }`}
+                      >
+                        <CardContent className="p-6 h-full flex flex-col">
+                          <div className="flex items-start space-x-4 flex-1">
+                            <div
+                              className={`p-3 rounded-lg flex-shrink-0 ${
+                                isDarkMode
+                                  ? "bg-gradient-to-r from-cyan-100 to-blue-100"
+                                  : "bg-gradient-to-r from-orange-100 to-rose-100"
+                              }`}
+                            >
+                              <IconComponent
+                                className={`h-6 w-6 ${isDarkMode ? "text-cyan-600" : "text-orange-600"}`}
+                              />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center justify-between mb-2">
+                                <Badge variant="outline" className="text-xs">
+                                  {qual.type}
+                                </Badge>
+                                <div
+                                  className={`flex items-center text-xs ${
+                                    isDarkMode
+                                      ? "text-slate-400"
+                                      : "text-slate-500"
+                                  }`}
+                                >
+                                  <Calendar className="h-3 w-3 mr-1" />
+                                  {qual.period}
+                                </div>
+                              </div>
+                              <h3
+                                className={`text-lg font-semibold mb-1 ${isDarkMode ? "text-white" : "text-slate-800"}`}
+                              >
+                                {qual.title}
+                              </h3>
+                              <p
+                                className={`font-medium mb-2 ${isDarkMode ? "text-cyan-400" : "text-orange-600"}`}
+                              >
+                                {qual.institution}
+                              </p>
+                              <div
+                                className={`flex items-center text-xs mb-3 ${
+                                  isDarkMode
+                                    ? "text-slate-400"
+                                    : "text-slate-500"
+                                }`}
+                              >
+                                <MapPin className="h-3 w-3 mr-1" />
+                                {qual.location}
+                              </div>
+                              <p
+                                className={`text-sm ${isDarkMode ? "text-slate-300" : "text-slate-600"}`}
+                              >
+                                {qual.description}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="mt-4 text-center">
+                            <p
+                              className={`text-xs ${isDarkMode ? "text-slate-400" : "text-slate-500"}`}
+                            >
+                              Click to view details →
+                            </p>
+                          </div>
+                        </CardContent>
+                      </Card>
+
+                      {/* Back of card - Certificate Images Only */}
+                      <Card
+                        className={`absolute inset-0 w-full h-full border-0 shadow-lg rotate-y-180 backface-hidden overflow-hidden ${
+                          isDarkMode ? "bg-slate-800" : "bg-white"
+                        }`}
+                      >
+                        <CardContent className="p-0 h-full">
+                          {/* Certificate Images Gallery */}
+                          <div className="h-full relative">
+                            {qual.certificateImages &&
+                            qual.certificateImages.length > 0 ? (
+                              <div className="h-full">
+                                {/* Main Certificate Image */}
+                                <div className="h-full relative">
+                                  <Image
+                                    src={
+                                      qual.certificateImages[0] ||
+                                      "/placeholder.svg"
+                                    }
+                                    alt={`${qual.title} Certificate`}
+                                    fill
+                                    className="object-contain p-4"
+                                  />
+
+                                  {/* Navigation for multiple images */}
+                                  {qual.certificateImages.length > 1 && (
+                                    <>
+                                      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                                        {qual.certificateImages.map(
+                                          (_, imgIndex) => (
+                                            <div
+                                              key={imgIndex}
+                                              className={`w-2 h-2 rounded-full ${
+                                                imgIndex === 0
+                                                  ? "bg-white"
+                                                  : "bg-white/50"
+                                              }`}
+                                            />
+                                          )
+                                        )}
+                                      </div>
+                                      <div className="absolute top-4 right-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm">
+                                        {qual.certificateImages.length}{" "}
+                                        certificates
+                                      </div>
+                                    </>
+                                  )}
+                                </div>
+                              </div>
+                            ) : (
+                              <div className="h-full flex items-center justify-center">
+                                <div className="text-center">
+                                  <Award
+                                    className={`h-16 w-16 mx-auto mb-4 ${isDarkMode ? "text-slate-600" : "text-slate-400"}`}
+                                  />
+                                  <p
+                                    className={`text-sm ${isDarkMode ? "text-slate-400" : "text-slate-500"}`}
+                                  >
+                                    Certificate image coming soon
+                                  </p>
+                                </div>
+                              </div>
+                            )}
+
+                            {/* Back indicator */}
+                            <div className="absolute top-4 left-4">
+                              <button
+                                className={`text-xs px-2 py-1 rounded ${isDarkMode ? "bg-slate-700 text-slate-300" : "bg-white/80 text-slate-600"}`}
+                              >
+                                ← Click to go back
+                              </button>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* Experience Section */}
-      <section
+      {/* <section
         id="experience"
         className={`py-12 sm:py-20 transition-colors duration-300 ${isDarkMode ? "bg-slate-900/50" : "bg-orange-50"}`}
       >
@@ -1383,6 +1717,292 @@ export default function Portfolio() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section> */}
+
+      <section
+        id="experience"
+        className={`py-12 sm:py-20 transition-colors duration-300 ${isDarkMode ? "bg-slate-900/50" : "bg-orange-50"}`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2
+              className={`text-3xl sm:text-4xl font-bold mb-4 ${isDarkMode ? "text-white" : "text-slate-800"}`}
+            >
+              Work Experience
+            </h2>
+            <div
+              className={`w-20 h-1 mx-auto ${
+                isDarkMode
+                  ? "bg-gradient-to-r from-amber-600 to-orange-600"
+                  : "bg-gradient-to-r from-orange-600 to-rose-600"
+              }`}
+            ></div>
+            <p
+              className={`mt-4 text-sm ${isDarkMode ? "text-slate-400" : "text-slate-500"}`}
+            >
+              💡 Click on any experience to view detailed information
+            </p>
+          </div>
+
+          <div className="max-w-4xl mx-auto">
+            {experience.map((exp, index) => {
+              const isExpanded = expandedExperience[index];
+
+              return (
+                <div key={index} className="relative">
+                  {index !== experience.length - 1 && (
+                    <div
+                      className={`absolute left-4 sm:left-6 top-20 w-0.5 h-full ${
+                        isDarkMode
+                          ? "bg-gradient-to-b from-amber-600 to-orange-600"
+                          : "bg-gradient-to-b from-orange-600 to-rose-600"
+                      }`}
+                    ></div>
+                  )}
+
+                  <div className="flex items-start space-x-4 sm:space-x-6 mb-8 sm:mb-12">
+                    <div
+                      className={`flex-shrink-0 w-8 h-8 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transform hover:scale-110 transition-transform duration-300 ${
+                        isDarkMode
+                          ? "bg-gradient-to-r from-amber-600 to-orange-600"
+                          : "bg-gradient-to-r from-orange-600 to-rose-600"
+                      }`}
+                    >
+                      <div className="w-3 h-3 sm:w-6 sm:h-6 bg-white rounded-full"></div>
+                    </div>
+
+                    <Card
+                      className={`flex-1 border-0 shadow-lg transition-all duration-300 cursor-pointer ${
+                        isDarkMode
+                          ? "bg-slate-800 hover:bg-slate-750"
+                          : "bg-white hover:bg-orange-25"
+                      } ${isExpanded ? "transform scale-105" : "hover:scale-102"}`}
+                      onClick={() => toggleExperience(index)}
+                    >
+                      <CardContent className="p-4 sm:p-6">
+                        {/* Header - Always visible */}
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3">
+                          <h3
+                            className={`text-lg sm:text-xl font-semibold ${isDarkMode ? "text-white" : "text-slate-800"}`}
+                          >
+                            {exp.title}
+                          </h3>
+                          <div className="flex items-center space-x-2 mt-2 sm:mt-0">
+                            <Badge
+                              variant="outline"
+                              className="text-xs sm:text-sm"
+                            >
+                              {exp.period}
+                            </Badge>
+                            <ChevronDown
+                              className={`h-4 w-4 transition-transform duration-300 ${
+                                isExpanded ? "rotate-180" : ""
+                              } ${isDarkMode ? "text-slate-400" : "text-slate-500"}`}
+                            />
+                          </div>
+                        </div>
+
+                        <p
+                          className={`font-medium mb-3 text-sm sm:text-base ${
+                            isDarkMode ? "text-cyan-400" : "text-orange-600"
+                          }`}
+                        >
+                          {exp.company}
+                        </p>
+
+                        <p
+                          className={`leading-relaxed text-sm sm:text-base ${
+                            isDarkMode ? "text-slate-300" : "text-slate-600"
+                          }`}
+                        >
+                          {isExpanded
+                            ? exp.fullDescription
+                            : exp.shortDescription}
+                        </p>
+
+                        {/* Expanded content */}
+                        {isExpanded && (
+                          <div className="mt-6 space-y-6 animate-in slide-in-from-top-2 duration-300">
+                            {/* Tech Stack */}
+                            <div>
+                              <h4
+                                className={`text-sm font-semibold mb-3 ${isDarkMode ? "text-white" : "text-slate-800"}`}
+                              >
+                                Tech Stack
+                              </h4>
+                              <div className="flex flex-wrap gap-2">
+                                {exp.techStack.map((tech, techIndex) => (
+                                  <Badge
+                                    key={techIndex}
+                                    variant="secondary"
+                                    className={`text-xs ${
+                                      isDarkMode
+                                        ? "bg-slate-700 text-slate-300"
+                                        : "bg-orange-100 text-orange-700"
+                                    }`}
+                                  >
+                                    {tech}
+                                  </Badge>
+                                ))}
+                              </div>
+                            </div>
+
+                            {/* Detailed Projects */}
+                            <div>
+                              <h4
+                                className={`text-sm font-semibold mb-3 ${isDarkMode ? "text-white" : "text-slate-800"}`}
+                              >
+                                Detailed Project Experience{" "}
+                                {/* ({exp.detailedProjects.length} projects) */}
+                              </h4>
+                              {exp.detailedProjects.map(
+                                (project, projectIndex) => {
+                                  const projectKey = `${index}-${projectIndex}`;
+                                  const isRespExpanded =
+                                    expandedProjects[projectKey];
+
+                                  return (
+                                    <div className="space-y-1">
+                                      <div
+                                        key={projectIndex}
+                                        className={`transition-all duration-300 ${
+                                          isDarkMode
+                                            ? "border-slate-600"
+                                            : "border-orange-300"
+                                        }`}
+                                      >
+                                        <div
+                                          className="p-3 cursor-pointer flex items-center justify-between"
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            setExpandedProjects((prev) => ({
+                                              ...prev,
+                                              [projectKey]: !prev[projectKey],
+                                            }));
+                                          }}
+                                        >
+                                          <div className="flex items-start flex-1">
+                                            {/* <Code
+                                                      className={`h-3 w-3 mr-2 mt-0.5 flex-shrink-0 ${
+                                                        isDarkMode ? "text-cyan-400" : "text-orange-500"
+                                                      }`} */}
+                                            <Target
+                                              className={`h-3 w-3 mr-2 mt-0.5 flex-shrink-0 ${
+                                                isDarkMode
+                                                  ? "text-cyan-400"
+                                                  : "text-orange-500"
+                                              }`}
+                                            />
+                                            <span
+                                              className={`text-xs ${
+                                                isDarkMode
+                                                  ? "text-slate-300"
+                                                  : "text-slate-600"
+                                              }`}
+                                            >
+                                              {project.title.split(".")[0]}
+                                              ...
+                                            </span>
+                                          </div>
+                                          <ChevronDown
+                                            className={`h-3 w-3 transition-transform duration-300 ${
+                                              isRespExpanded ? "rotate-180" : ""
+                                            } ${isDarkMode ? "text-slate-400" : "text-slate-500"}`}
+                                          />
+                                        </div>
+
+                                        {isRespExpanded && (
+                                          <div className="px-3 pb-3 border-t border-slate-200 dark:border-slate-600">
+                                            <div className="pt-3 space-y-3">
+                                              <div>
+                                                <h6
+                                                  className={`text-xs font-semibold mb-1 ${isDarkMode ? "text-white" : "text-slate-800"}`}
+                                                >
+                                                  What I Did
+                                                </h6>
+                                                <p
+                                                  className={`text-xs ${isDarkMode ? "text-slate-300" : "text-slate-600"}`}
+                                                >
+                                                  {project.description}
+                                                </p>
+                                              </div>
+
+                                              <div>
+                                                <h6
+                                                  className={`text-xs font-semibold mb-1 ${isDarkMode ? "text-white" : "text-slate-800"}`}
+                                                >
+                                                  What I Achieved
+                                                </h6>
+                                                <p
+                                                  className={`text-xs ${isDarkMode ? "text-slate-300" : "text-slate-600"}`}
+                                                >
+                                                  {/* Sample achievements - you can customize these */}
+                                                  {project.outcome}
+                                                </p>
+                                              </div>
+
+                                              <div>
+                                                <h6
+                                                  className={`text-xs font-semibold mb-1 ${isDarkMode ? "text-white" : "text-slate-800"}`}
+                                                >
+                                                  Key Technologies
+                                                </h6>
+                                                <div className="flex flex-wrap gap-1">
+                                                  {/* Sample tech stack for each project */}
+                                                  {project.techStack
+                                                    .slice(0, 3)
+                                                    .map((tech, techIdx) => (
+                                                      <Badge
+                                                        key={techIdx}
+                                                        variant="outline"
+                                                        className={`text-xs ${
+                                                          isDarkMode
+                                                            ? "border-slate-500 text-slate-400"
+                                                            : "border-orange-400 text-orange-700"
+                                                        }`}
+                                                      >
+                                                        {tech}
+                                                      </Badge>
+                                                    ))}
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        )}
+                                      </div>
+                                    </div>
+                                  );
+                                }
+                              )}
+                            </div>
+
+                            <div className="pt-4 border-t border-slate-200 dark:border-slate-700">
+                              <p
+                                className={`text-xs text-center ${isDarkMode ? "text-slate-400" : "text-slate-500"}`}
+                              >
+                                Click to collapse ↑
+                              </p>
+                            </div>
+                          </div>
+                        )}
+
+                        {!isExpanded && (
+                          <div className="mt-4 text-center">
+                            <p
+                              className={`text-xs ${isDarkMode ? "text-slate-400" : "text-slate-500"}`}
+                            >
+                              Click to view details ↓
+                            </p>
+                          </div>
+                        )}
+                      </CardContent>
+                    </Card>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
