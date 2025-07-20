@@ -56,13 +56,13 @@ export function ProjectCard({ project, index, isDarkMode }: ProjectCardProps) {
                   src={img}
                   alt={`${project.title} image ${imgIndex + 1}`}
                   fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  className="object-scale-down group-hover:scale-105 transition-transform duration-300"
                 />
                 <div
                   className={`absolute inset-0 ${
                     isDarkMode
                       ? "bg-gradient-to-t from-gray-100/20 to-transparent"
-                      : "bg-gradient-to-t from-gray-200/20 to-transparent"
+                      : "bg-gradient-to-t from-gray-100/20 to-transparent"
                   }`}
                 />
               </div>
@@ -122,10 +122,13 @@ export function ProjectCard({ project, index, isDarkMode }: ProjectCardProps) {
           <Button
             size="sm"
             className={`flex-1 text-sm ${
-              isDarkMode
+              project.liveUrl === "#"
+                ? "bg-gray-400 text-gray-600 cursor-not-allowed"
+                : isDarkMode
                 ? "bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700"
                 : "bg-gradient-to-r from-orange-600 to-rose-600 hover:from-orange-700 hover:to-rose-700"
             }`}
+            disabled={project.liveUrl === "#"}
             onClick={() => window.open(project.liveUrl, "_blank")}>
             <ExternalLink className="mr-2 h-3 w-3" />
             Live Demo
@@ -135,6 +138,7 @@ export function ProjectCard({ project, index, isDarkMode }: ProjectCardProps) {
             variant="outline"
             size="sm"
             className={isDarkMode ? "border-slate-600 text-slate-300" : ""}
+            disabled={project.githubUrl === "#"}
             onClick={() => window.open(project.githubUrl, "_blank")}>
             <Github className="h-3 w-3" />
           </Button>

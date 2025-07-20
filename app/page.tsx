@@ -136,9 +136,12 @@ export default function Portfolio() {
       description:
         "Collaborative task management application with real-time updates, drag-and-drop functionality, and team collaboration features.",
       images: [
-        "/placeholder.svg?height=300&width=500",
-        "/placeholder.svg?height=300&width=500",
-        "/placeholder.svg?height=300&width=500",
+        "/pic1_projexure.png?height=300&width=500",
+        "/pic2_projexure.png?height=300&width=500",
+        "/pic3_projexure.png?height=300&width=500",
+        "/pic4_projexure.png?height=300&width=500",
+        "/pic5_projexure.png?height=300&width=500",
+        "/pic6_projexure.png?height=300&width=500",
       ],
       technologies: [
         "Next.js",
@@ -151,8 +154,8 @@ export default function Portfolio() {
         "Tailwind CSS",
         "MUI",
       ],
-      liveUrl: "#",
-      githubUrl: "#",
+      liveUrl: "https://github.com/ankujpandey/Projexure",
+      githubUrl: "https://github.com/ankujpandey/Projexure",
     },
     {
       title: "Weather Dashboard",
@@ -575,22 +578,22 @@ export default function Portfolio() {
       description: "Contributed to frontend and backend development projects.",
       icon: Briefcase,
       certificateImages: [
-        "/placeholder.svg?height=400&width=600&text=Degree+Certificate",
+        "/intern_certificate.jpg?height=400&width=600&text=Internship+Certificate",
       ],
     },
-    {
-      type: "Certification",
-      title: "AWS Certified Developer – Associate",
-      institution: "Amazon Web Services",
-      period: "2023",
-      location: "Online",
-      description:
-        "Validated skills in cloud application development using AWS services",
-      icon: Award,
-      certificateImages: [
-        "/placeholder.svg?height=400&width=600&text=Degree+Certificate",
-      ],
-    },
+    // {
+    //   type: "Certification",
+    //   title: "AWS Certified Developer – Associate",
+    //   institution: "Amazon Web Services",
+    //   period: "2023",
+    //   location: "Online",
+    //   description:
+    //     "Validated skills in cloud application development using AWS services",
+    //   icon: Award,
+    //   certificateImages: [
+    //     "/placeholder.svg?height=400&width=600&text=Degree+Certificate",
+    //   ],
+    // },
   ];
 
   const experience = [
@@ -2304,10 +2307,11 @@ export default function Portfolio() {
               Full Stack Web Developer • Creating Digital Experiences
             </p>
             <div className="flex justify-center space-x-6 mb-6 sm:mb-8">
-              {[Github, Linkedin, Mail].map((Icon, index) => (
+              {socialLinks.map(({ Icon, url }, index) => (
                 <Link
                   key={index}
-                  href="#"
+                  href={url}
+                  target="_blank"
                   className="text-slate-400 hover:text-white transition-all duration-300 transform hover:scale-125 hover:-translate-y-1">
                   <Icon className="h-5 w-5 sm:h-6 sm:w-6" />
                 </Link>
