@@ -232,3 +232,12 @@
 .duration-300 {
   animation-duration: 300ms;
 }
+
+.embla__container {
+  display: flex;
+}
+
+.embla__slide {
+  position: relative;
+  min-width: 100%;
+}

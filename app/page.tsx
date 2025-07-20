@@ -2,7 +2,7 @@
 
 import type React from "react";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -68,15 +68,21 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { ProjectCard } from "@/components/project-card";
+
+type CertificateDetails = {
+  gpa?: string;
+  honors?: string;
+  relevantCourses?: string[];
+  projects?: string[];
+  achievements?: string[];
+};
 
 export default function Portfolio() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [projectCarousels, setProjectCarousels] = useState<{
-    [key: number]: number;
-  }>({});
 
   const [flippedCards, setFlippedCards] = useState<{ [key: number]: boolean }>(
     {}
@@ -101,6 +107,69 @@ export default function Portfolio() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
+
+  const projects = [
+    {
+      title: "Whisper Wave",
+      description:
+        "A fun web app for receiving anonymous whispers with a simple, secure interface and message suggestions powered by Gemini.",
+      images: [
+        "/pic1_whisper_wave.jpeg?height=300&width=500",
+        "/pic2_whisper_wave.jpeg?height=300&width=500",
+        "/pic3_whisper_wave.jpeg?height=300&width=500",
+        "/pic4_whisper_wave.jpeg?height=300&width=500",
+      ],
+      technologies: [
+        "Next.js",
+        "TypeScript",
+        "MongoDB",
+        "Shadcn/UI",
+        "Zod",
+        "OAuth",
+        "Gemini API",
+      ],
+      liveUrl: "https://whisper-wave-pied.vercel.app",
+      githubUrl: "https://github.com/ankujpandey/whisper-wave",
+    },
+    {
+      title: "Projexure",
+      description:
+        "Collaborative task management application with real-time updates, drag-and-drop functionality, and team collaboration features.",
+      images: [
+        "/placeholder.svg?height=300&width=500",
+        "/placeholder.svg?height=300&width=500",
+        "/placeholder.svg?height=300&width=500",
+      ],
+      technologies: [
+        "Next.js",
+        "Node.js",
+        "Express",
+        "PostgreSQL",
+        "Prisma ORM",
+        "Redux Toolkit",
+        "TypeScript",
+        "Tailwind CSS",
+        "MUI",
+      ],
+      liveUrl: "#",
+      githubUrl: "#",
+    },
+    {
+      title: "Weather Dashboard",
+      description:
+        "Beautiful weather application with location-based forecasts, interactive maps, and detailed weather analytics.",
+      images: [
+        "/placeholder.svg?height=300&width=500",
+        "/placeholder.svg?height=300&width=500",
+        "/placeholder.svg?height=300&width=500",
+        "/placeholder.svg?height=300&width=500",
+        "/placeholder.svg?height=300&width=500",
+      ],
+      technologies: ["React", "API Integration", "Chart.js", "Tailwind"],
+      liveUrl: "#",
+      githubUrl: "#",
+    },
+  ];
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -143,8 +212,10 @@ export default function Portfolio() {
     };
 
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [projects]);
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -172,7 +243,6 @@ export default function Portfolio() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Validate form
     const validation = validateForm(
       formData.name,
       formData.email,
@@ -181,56 +251,38 @@ export default function Portfolio() {
 
     if (!validation.isValid) {
       setFormErrors(validation.errors);
-
-      // Show specific error toast
-      if (validation.firstError) {
-        toast.error("Form validation failed", validation.firstError);
-      } else {
-        toast.error(
-          "Please fix the errors below",
-          "Check your form inputs and try again"
-        );
-      }
+      toast.error(
+        "😅 Oops! Something's not right.",
+        "Could you check the form and try again?"
+      );
       return;
     }
 
-    setIsSubmitting(true);
-
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      const response = await fetch("/api/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
-      // Simulate different types of failures for demo
-      const random = Math.random();
-
-      if (random > 0.7) {
-        // 70% success rate
+      if (response.ok) {
         toast.success(
-          "Message sent successfully! 🎉",
-          "I'll get back to you within 24 hours"
+          "📩 Message sent!",
+          "I'll get back to you soon. Thanks for reaching out!"
         );
         setFormData({ name: "", email: "", message: "" });
         setFormErrors({ name: [], email: [], message: [] });
-      } else if (random > 0.5) {
-        toast.error(
-          "Server temporarily unavailable",
-          "Please try again in a few minutes or contact me directly"
-        );
-      } else if (random > 0.3) {
-        toast.error(
-          "Email delivery failed",
-          "There was an issue with the email service. Please try again"
-        );
       } else {
         toast.error(
-          "Network connection error",
-          "Please check your internet connection and try again"
+          "😬 Couldn't send your message.",
+          "The server took a nap! Please try again in a bit."
         );
       }
-    } catch (error) {
+    } catch (err) {
+      console.error("Error submitting form:", err);
       toast.error(
-        "Unexpected error occurred",
-        "Something went wrong. Please try again or contact me directly"
+        "🚨 Uh-oh! Something went wrong.",
+        "Try again or send me a direct email."
       );
     } finally {
       setIsSubmitting(false);
@@ -414,7 +466,7 @@ export default function Portfolio() {
         "I design robust, scalable backend systems using Node.js and Express.js, focusing on modularity, performance, and maintainability.",
       features: [
         "Custom REST APIs",
-        "Loan & EMI Engines",
+        // "Loan & EMI Engines",
         "Microservices Architecture",
         "Secure Data Handling & Verification",
       ],
@@ -423,20 +475,19 @@ export default function Portfolio() {
       icon: Zap,
       title: "System Integration & Automation",
       description:
-        "I streamline business workflows through third‑party API integrations—like PAN, GST, ITR & EPFO verifications, Cashfree payment gateway, CKYC/mandate processing, and automated offer & risk engines—to boost efficiency and reliability.",
+        "I streamline business workflows with third-party API integrations to enhance efficiency and reliability.",
       features: [
         "API orchestration & versioning",
         "Webhook & event-driven pipelines",
-        "Scheduled jobs & retry logic",
+        "Scheduled jobs",
         "Error handling & alerting",
-        "Data transformation & syncing",
       ],
     },
     {
       icon: Code,
       title: "Modern Frontend Engineering",
       description:
-        "I build clean, responsive, and accessible interfaces with React and Next.js—leveraging SSR/SSG, component-driven design, and Tailwind CSS—to deliver high‑performance dashboards and user experiences.",
+        "I build clean, responsive, and accessible interfaces with React, Next.js, and Tailwind CSS for high-performance dashboards and apps.",
       features: [
         "React & Next.js",
         "Responsive Design",
@@ -477,25 +528,43 @@ export default function Portfolio() {
       institution: "St. Stephen’s College, University of Delhi",
       period: "2016 - 2019",
       location: "Delhi, India",
-      description:
-        "Learned the fundamentals of Physics, Mathematics, and Computer Science through a well-rounded curriculum.",
+      description: "Studied Physics, Mathematics, and Computer Science.",
       icon: BookOpen,
-      certificateImages: [
-        "/placeholder.svg?height=400&width=600&text=Degree+Certificate",
-      ],
+      certificateImages: [], // No certificate images for education
+      certificateDetails: {
+        relevantCourses: [
+          "Data Structures & Algorithms",
+          "Software Engineering Principles",
+          "Database Management Systems",
+          "Modern Web Development",
+        ],
+        projects: [
+          "Developed a collaborative task management system (Group Project)",
+          "Built a basic e-commerce prototype (Final Year Project)",
+        ],
+      } as CertificateDetails,
     },
     {
       type: "Education",
       title: "Master of Computer Applications (MCA)",
-      institution: "Dept. of Computer Sci., University of Delhi",
+      institution: "Dept. of Comp. Sci., University of Delhi",
       period: "2020 - 2022",
       location: "Delhi, India",
-      description:
-        "Gained a solid foundation in core Computer Science topics, programming, and software development principles.",
+      description: "Specialized in Software Engineering and Web Technologies.",
       icon: BookOpen,
-      certificateImages: [
-        "/placeholder.svg?height=400&width=600&text=Degree+Certificate",
-      ],
+      certificateImages: [], // No certificate images for education
+      certificateDetails: {
+        relevantCourses: [
+          "Data Structures & Algorithms",
+          "Software Engineering Principles",
+          "Database Management Systems",
+          "Modern Web Development",
+        ],
+        projects: [
+          "Developed a collaborative task management system (Group Project)",
+          "Built a basic e-commerce prototype (Final Year Project)",
+        ],
+      } as CertificateDetails,
     },
     {
       type: "Internship",
@@ -503,8 +572,7 @@ export default function Portfolio() {
       institution: "Faircent",
       period: "Jan 2023 - Jun 2023",
       location: "Gurgaon, India",
-      description:
-        "Worked on real-world software development projects involving frontend and backend technologies.",
+      description: "Contributed to frontend and backend development projects.",
       icon: Briefcase,
       certificateImages: [
         "/placeholder.svg?height=400&width=600&text=Degree+Certificate",
@@ -522,51 +590,6 @@ export default function Portfolio() {
       certificateImages: [
         "/placeholder.svg?height=400&width=600&text=Degree+Certificate",
       ],
-    },
-  ];
-
-  const projects = [
-    {
-      title: "E-Commerce Platform",
-      description:
-        "Full-stack e-commerce solution with React, Node.js, and MongoDB. Features include user authentication, payment integration, and admin dashboard.",
-      images: [
-        "/placeholder.svg?height=300&width=500",
-        "/placeholder.svg?height=300&width=500",
-        "/placeholder.svg?height=300&width=500",
-        "/placeholder.svg?height=300&width=500",
-      ],
-      technologies: ["React", "Node.js", "MongoDB", "Stripe"],
-      liveUrl: "#",
-      githubUrl: "#",
-    },
-    {
-      title: "Task Management App",
-      description:
-        "Collaborative task management application with real-time updates, drag-and-drop functionality, and team collaboration features.",
-      images: [
-        "/placeholder.svg?height=300&width=500",
-        "/placeholder.svg?height=300&width=500",
-        "/placeholder.svg?height=300&width=500",
-      ],
-      technologies: ["Next.js", "TypeScript", "Prisma", "Socket.io"],
-      liveUrl: "#",
-      githubUrl: "#",
-    },
-    {
-      title: "Weather Dashboard",
-      description:
-        "Beautiful weather application with location-based forecasts, interactive maps, and detailed weather analytics.",
-      images: [
-        "/placeholder.svg?height=300&width=500",
-        "/placeholder.svg?height=300&width=500",
-        "/placeholder.svg?height=300&width=500",
-        "/placeholder.svg?height=300&width=500",
-        "/placeholder.svg?height=300&width=500",
-      ],
-      technologies: ["React", "API Integration", "Chart.js", "Tailwind"],
-      liveUrl: "#",
-      githubUrl: "#",
     },
   ];
 
@@ -706,23 +729,6 @@ export default function Portfolio() {
       url: "mailto:ankuj.mca20.du@gmail.com",
     },
   ];
-
-  const nextImage = (projectIndex: number) => {
-    setProjectCarousels(prev => ({
-      ...prev,
-      [projectIndex]:
-        ((prev[projectIndex] || 0) + 1) % projects[projectIndex].images.length,
-    }));
-  };
-
-  const prevImage = (projectIndex: number) => {
-    setProjectCarousels(prev => ({
-      ...prev,
-      [projectIndex]:
-        ((prev[projectIndex] || 0) - 1 + projects[projectIndex].images.length) %
-        projects[projectIndex].images.length,
-    }));
-  };
 
   const FloatingElements = () => (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -1237,13 +1243,13 @@ export default function Portfolio() {
                   ? "bg-gradient-to-r from-amber-600 to-orange-600"
                   : "bg-gradient-to-r from-orange-600 to-rose-600"
               }`}></div>
-            <p
+            {/* <p
               className={`mt-6 text-lg max-w-3xl mx-auto ${
                 isDarkMode ? "text-slate-300" : "text-slate-600"
               }`}>
               Comprehensive web development services tailored to bring your
               ideas to life with modern technologies and best practices.
-            </p>
+            </p> */}
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
@@ -1330,112 +1336,15 @@ export default function Portfolio() {
 
           <div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
             {projects.map((project, index) => (
-              <Card
+              <ProjectCard
                 key={index}
-                className={`border-0 shadow-lg hover:shadow-xl transition-all duration-300 group transform hover:scale-105 ${
-                  isDarkMode ? "bg-slate-800" : "bg-white"
-                }`}>
-                <div className="relative overflow-hidden">
-                  {/* Image Carousel */}
-                  <div className="relative h-48 sm:h-56">
-                    <Image
-                      src={project.images[projectCarousels[index] || 0]}
-                      alt={project.title}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-
-                    {/* Carousel Controls */}
-                    {project.images.length > 1 && (
-                      <>
-                        <button
-                          onClick={() => prevImage(index)}
-                          className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-black/70">
-                          <ChevronLeft className="h-4 w-4" />
-                        </button>
-                        <button
-                          onClick={() => nextImage(index)}
-                          className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-black/70">
-                          <ChevronRight className="h-4 w-4" />
-                        </button>
-
-                        {/* Dots Indicator */}
-                        <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
-                          {project.images.map((_, imgIndex) => (
-                            <button
-                              key={imgIndex}
-                              onClick={() =>
-                                setProjectCarousels(prev => ({
-                                  ...prev,
-                                  [index]: imgIndex,
-                                }))
-                              }
-                              className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                                (projectCarousels[index] || 0) === imgIndex
-                                  ? "bg-white"
-                                  : "bg-white/50"
-                              }`}
-                            />
-                          ))}
-                        </div>
-                      </>
-                    )}
-                  </div>
-
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </div>
-
-                <CardContent className="p-4 sm:p-6">
-                  <h3
-                    className={`text-lg sm:text-xl font-semibold mb-2 ${
-                      isDarkMode ? "text-white" : "text-slate-800"
-                    }`}>
-                    {project.title}
-                  </h3>
-                  <p
-                    className={`mb-4 text-sm sm:text-base line-clamp-3 ${
-                      isDarkMode ? "text-slate-300" : "text-slate-600"
-                    }`}>
-                    {project.description}
-                  </p>
-
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.technologies.map((tech, techIndex) => (
-                      <Badge
-                        key={techIndex}
-                        variant="secondary"
-                        className={`text-xs ${
-                          isDarkMode
-                            ? "bg-slate-700 text-slate-300"
-                            : "bg-orange-100 text-orange-700"
-                        }`}>
-                        {tech}
-                      </Badge>
-                    ))}
-                  </div>
-
-                  <div className="flex space-x-3">
-                    <Button
-                      size="sm"
-                      className={`flex-1 text-sm ${
-                        isDarkMode
-                          ? "bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700"
-                          : "bg-gradient-to-r from-orange-600 to-rose-600 hover:from-orange-700 hover:to-rose-700"
-                      }`}>
-                      <ExternalLink className="mr-2 h-3 w-3" />
-                      Live Demo
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className={
-                        isDarkMode ? "border-slate-600 text-slate-300" : ""
-                      }>
-                      <Github className="h-3 w-3" />
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+                project={project}
+                index={index}
+                isDarkMode={isDarkMode}
+                // nextImage={nextImage}
+                // prevImage={prevImage}
+                // stopAutoPlay={stopAutoPlay}
+              />
             ))}
           </div>
         </div>
@@ -1476,7 +1385,7 @@ export default function Portfolio() {
                 const isFlipped = flippedCards[index];
 
                 return (
-                  <div key={index} className="perspective-1000 h-72">
+                  <div key={index} className="perspective-1000 h-[280px]">
                     <div
                       className={`relative w-full h-full transition-transform duration-700 transform-style-preserve-3d cursor-pointer ${
                         isFlipped ? "rotate-y-180" : ""
@@ -1568,12 +1477,121 @@ export default function Portfolio() {
                           isDarkMode ? "bg-slate-800" : "bg-white"
                         }`}>
                         <CardContent className="p-0 h-full">
-                          {/* Certificate Images Gallery */}
-                          <div className="h-full relative">
-                            {qual.certificateImages &&
-                            qual.certificateImages.length > 0 ? (
-                              <div className="h-full">
-                                {/* Main Certificate Image */}
+                          {qual.type === "Education" ? (
+                            // Education Details
+                            <div className="h-full flex flex-col p-4 overflow-auto">
+                              <h4
+                                className={`text-lg font-semibold mb-2 ${
+                                  isDarkMode ? "text-white" : "text-slate-800"
+                                }`}>
+                                Academic Details
+                              </h4>
+                              <ul className="space-y-1 text-sm flex-1">
+                                {qual.certificateDetails?.gpa && (
+                                  <li
+                                    className={
+                                      isDarkMode
+                                        ? "text-slate-300"
+                                        : "text-slate-600"
+                                    }>
+                                    <strong>GPA:</strong>{" "}
+                                    {qual.certificateDetails.gpa}
+                                  </li>
+                                )}
+                                {qual.certificateDetails?.honors && (
+                                  <li
+                                    className={
+                                      isDarkMode
+                                        ? "text-slate-300"
+                                        : "text-slate-600"
+                                    }>
+                                    <strong>Honors:</strong>{" "}
+                                    {qual.certificateDetails.honors}
+                                  </li>
+                                )}
+                                {qual.certificateDetails?.relevantCourses &&
+                                  qual.certificateDetails?.relevantCourses
+                                    ?.length > 0 && (
+                                    <li
+                                      className={
+                                        isDarkMode
+                                          ? "text-slate-300"
+                                          : "text-slate-600"
+                                      }>
+                                      <strong>Relevant Courses:</strong>{" "}
+                                      {qual.certificateDetails.relevantCourses.join(
+                                        ", "
+                                      )}
+                                    </li>
+                                  )}
+                                {qual.certificateDetails?.projects &&
+                                  qual.certificateDetails?.projects?.length >
+                                    0 && (
+                                    <li
+                                      className={
+                                        isDarkMode
+                                          ? "text-slate-300"
+                                          : "text-slate-600"
+                                      }>
+                                      <strong>Projects:</strong>{" "}
+                                      {qual.certificateDetails?.projects.join(
+                                        ", "
+                                      )}
+                                    </li>
+                                  )}
+                                {qual.certificateDetails?.achievements &&
+                                  qual.certificateDetails?.achievements
+                                    ?.length > 0 && (
+                                    <li
+                                      className={
+                                        isDarkMode
+                                          ? "text-slate-300"
+                                          : "text-slate-600"
+                                      }>
+                                      <strong>Achievements:</strong>{" "}
+                                      {qual.certificateDetails?.achievements.join(
+                                        ", "
+                                      )}
+                                    </li>
+                                  )}
+                                {/* Fallback */}
+                                {!qual.certificateDetails?.gpa &&
+                                  !qual.certificateDetails?.honors &&
+                                  (!qual.certificateDetails?.relevantCourses ||
+                                    qual.certificateDetails.relevantCourses
+                                      .length === 0) &&
+                                  (!qual.certificateDetails?.projects ||
+                                    qual.certificateDetails.projects.length ===
+                                      0) &&
+                                  (!qual.certificateDetails?.achievements ||
+                                    qual.certificateDetails.achievements
+                                      .length === 0) && (
+                                    <li
+                                      className={
+                                        isDarkMode
+                                          ? "text-slate-300"
+                                          : "text-slate-600"
+                                      }>
+                                      Focused on foundational knowledge and
+                                      practical application.
+                                    </li>
+                                  )}
+                              </ul>
+                              <div className="mt-4 text-center">
+                                <p
+                                  className={`text-xs ${
+                                    isDarkMode
+                                      ? "text-slate-400"
+                                      : "text-slate-500"
+                                  }`}>
+                                  Click to go back →
+                                </p>
+                              </div>
+                            </div>
+                          ) : (
+                            // Non-Education Certificate Images
+                            <div className="h-full relative">
+                              {qual.certificateImages?.length > 0 ? (
                                 <div className="h-full relative">
                                   <Image
                                     src={
@@ -1585,7 +1603,6 @@ export default function Portfolio() {
                                     className="object-contain p-4"
                                   />
 
-                                  {/* Navigation for multiple images */}
                                   {qual.certificateImages.length > 1 && (
                                     <>
                                       <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
@@ -1609,41 +1626,40 @@ export default function Portfolio() {
                                     </>
                                   )}
                                 </div>
-                              </div>
-                            ) : (
-                              <div className="h-full flex items-center justify-center">
-                                <div className="text-center">
-                                  <Award
-                                    className={`h-16 w-16 mx-auto mb-4 ${
-                                      isDarkMode
-                                        ? "text-slate-600"
-                                        : "text-slate-400"
-                                    }`}
-                                  />
-                                  <p
-                                    className={`text-sm ${
-                                      isDarkMode
-                                        ? "text-slate-400"
-                                        : "text-slate-500"
-                                    }`}>
-                                    Certificate image coming soon
-                                  </p>
+                              ) : (
+                                <div className="h-full flex items-center justify-center">
+                                  <div className="text-center">
+                                    <Award
+                                      className={`h-16 w-16 mx-auto mb-4 ${
+                                        isDarkMode
+                                          ? "text-slate-600"
+                                          : "text-slate-400"
+                                      }`}
+                                    />
+                                    <p
+                                      className={`text-sm ${
+                                        isDarkMode
+                                          ? "text-slate-400"
+                                          : "text-slate-500"
+                                      }`}>
+                                      Certificate image coming soon
+                                    </p>
+                                  </div>
                                 </div>
-                              </div>
-                            )}
+                              )}
 
-                            {/* Back indicator */}
-                            <div className="absolute top-4 left-4">
-                              <button
-                                className={`text-xs px-2 py-1 rounded ${
-                                  isDarkMode
-                                    ? "bg-slate-700 text-slate-300"
-                                    : "bg-white/80 text-slate-600"
-                                }`}>
-                                ← Click to go back
-                              </button>
+                              <div className="absolute top-4 left-4">
+                                <button
+                                  className={`text-xs px-2 py-1 rounded ${
+                                    isDarkMode
+                                      ? "bg-slate-700 text-slate-300"
+                                      : "bg-white/80 text-slate-600"
+                                  }`}>
+                                  ← Click to go back
+                                </button>
+                              </div>
                             </div>
-                          </div>
+                          )}
                         </CardContent>
                       </Card>
                     </div>
@@ -2151,11 +2167,13 @@ export default function Portfolio() {
                           handleInputChange("name", e.target.value)
                         }
                         className={`w-full px-4 py-3 border rounded-lg transition-all duration-300 ${
+                          isDarkMode
+                            ? "border-slate-600 bg-slate-700 text-white placeholder-slate-400 focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                            : "border-slate-300 bg-white text-slate-800 placeholder-slate-500 focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        } ${
                           formErrors.name.length > 0
                             ? "border-red-500 focus:ring-red-500"
-                            : isDarkMode
-                            ? "border-slate-600 bg-slate-700 text-white placeholder-slate-400 focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
-                            : "border-slate-300 bg-white focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                            : ""
                         }`}
                         placeholder="Your Name"
                         disabled={isSubmitting}
@@ -2181,11 +2199,13 @@ export default function Portfolio() {
                           handleInputChange("email", e.target.value)
                         }
                         className={`w-full px-4 py-3 border rounded-lg transition-all duration-300 ${
-                          formErrors.email.length > 0
-                            ? "border-red-500 focus:ring-red-500"
-                            : isDarkMode
+                          isDarkMode
                             ? "border-slate-600 bg-slate-700 text-white placeholder-slate-400 focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
-                            : "border-slate-300 bg-white focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                            : "border-slate-300 bg-white text-slate-800 placeholder-slate-500 focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        } ${
+                          formErrors.name.length > 0
+                            ? "border-red-500 focus:ring-red-500"
+                            : ""
                         }`}
                         placeholder="your.email@example.com"
                         disabled={isSubmitting}
@@ -2210,12 +2230,16 @@ export default function Portfolio() {
                         onChange={e =>
                           handleInputChange("message", e.target.value)
                         }
-                        className={`w-full px-4 py-3 border rounded-lg transition-all duration-300 resize-none ${
+                        className={`w-full px-4 py-3 border rounded-lg transition-all duration-300 resize-none
+                        ${
+                          isDarkMode
+                            ? "border-slate-600 bg-slate-700 text-white placeholder-slate-400 focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                            : "border-slate-300 bg-white text-slate-800 placeholder-slate-500 focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        }
+                        ${
                           formErrors.message.length > 0
                             ? "border-red-500 focus:ring-red-500"
-                            : isDarkMode
-                            ? "border-slate-600 bg-slate-700 text-white placeholder-slate-400 focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
-                            : "border-slate-300 bg-white focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                            : ""
                         }`}
                         placeholder="Tell me about your project..."
                         disabled={isSubmitting}
