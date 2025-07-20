@@ -157,21 +157,21 @@ export default function Portfolio() {
       liveUrl: "https://github.com/ankujpandey/Projexure",
       githubUrl: "https://github.com/ankujpandey/Projexure",
     },
-    {
-      title: "Weather Dashboard",
-      description:
-        "Beautiful weather application with location-based forecasts, interactive maps, and detailed weather analytics.",
-      images: [
-        "/placeholder.svg?height=300&width=500",
-        "/placeholder.svg?height=300&width=500",
-        "/placeholder.svg?height=300&width=500",
-        "/placeholder.svg?height=300&width=500",
-        "/placeholder.svg?height=300&width=500",
-      ],
-      technologies: ["React", "API Integration", "Chart.js", "Tailwind"],
-      liveUrl: "#",
-      githubUrl: "#",
-    },
+    // {
+    //   title: "Weather Dashboard",
+    //   description:
+    //     "Beautiful weather application with location-based forecasts, interactive maps, and detailed weather analytics.",
+    //   images: [
+    //     "/placeholder.svg?height=300&width=500",
+    //     "/placeholder.svg?height=300&width=500",
+    //     "/placeholder.svg?height=300&width=500",
+    //     "/placeholder.svg?height=300&width=500",
+    //     "/placeholder.svg?height=300&width=500",
+    //   ],
+    //   technologies: ["React", "API Integration", "Chart.js", "Tailwind"],
+    //   liveUrl: "#",
+    //   githubUrl: "#",
+    // },
   ];
 
   useEffect(() => {
