@@ -998,7 +998,7 @@ export default function Portfolio() {
                   onClick={() => scrollToSection("projects")}>
                   View My Work
                 </Button>
-                <Button
+                {/* <Button
                   variant="outline"
                   size="lg"
                   className={`transform hover:scale-105 transition-all duration-300 ${
@@ -1008,7 +1008,20 @@ export default function Portfolio() {
                   }`}>
                   <Download className="mr-2 h-4 w-4" />
                   Download CV
-                </Button>
+                </Button> */}
+                <a
+                  href="/Ankuj_Resume.pdf"
+                  download
+                  // variant="outline"
+                  // size="lg"
+                  className={`inline-flex items-center justify-center border font-medium rounded-md transition-all duration-300 transform hover:scale-105 ${
+                    isDarkMode
+                      ? "border-slate-600 hover:bg-slate-800 bg-transparent text-white px-6 py-2"
+                      : "border-orange-300 hover:bg-orange-50 bg-transparent px-6 py-2"
+                  }`}>
+                  <Download className="mr-2 h-4 w-4" />
+                  Download CV
+                </a>
               </div>
 
               <div className="flex justify-center lg:justify-start space-x-6 animate-fade-in-up animation-delay-800">
