@@ -30,51 +30,26 @@ This portfolio is built using a modern web development stack:
 *   **Shadcn/ui:** Reusable UI components built with Radix UI and Tailwind CSS.
 *   **Lucide React:** A collection of beautiful and customizable open-source icons.
 
-## 🛠️ Setup and Installation
-
-To run this project locally, follow these steps:
-
-1.  **Clone the repository:**
-    \`\`\`bash
-    git clone https://github.com/your-username/your-portfolio-repo.git
-    cd your-portfolio-repo
-    \`\`\`
-2.  **Install dependencies:**
-    \`\`\`bash
-    npm install
-    # or
-    yarn install
-    # or
-    pnpm install
-    \`\`\`
-3.  **Run the development server:**
-    \`\`\`bash
-    npm run dev
-    # or
-    yarn dev
-    # or
-    pnpm dev
-    \`\`\`
-4.  **Open in your browser:**
-    The application will be available at `http://localhost:3000`.
-
 ## 🌐 Live Demo
 
 You can view a live demo of the portfolio here:
-[https://your-portfolio-url.vercel.app](https://your-portfolio-url.vercel.app) (Replace with your actual deployment URL)
+[https://ankujpandeydev.vercel.app](https://ankujpandeydev.vercel.app/)
 
-## 🤝 Contributing
+## 🙋‍♂️ Use as Inspiration
 
-Feel free to fork this repository and use it as a template for your own portfolio. If you find any bugs or have suggestions for improvements, please open an issue or submit a pull request.
+Feel free to explore this portfolio for ideas or inspiration. However, this project is personal and not open for contributions or pull requests.
+
+## 🚀 Reuse
+
+You're welcome to fork this repo and adapt it to create your own portfolio. Attribution is appreciated, but contributions via pull requests are not accepted.
 
 ## 📧 Contact
 
-Feel free to reach out to me through the contact form on the portfolio website or directly via email at [ankuj.pandey@example.com](mailto:ankuj.pandey@example.com).
+Feel free to reach out to me through the contact form on the portfolio website or directly via email at [ankuj.mca20.du@gmail.com](mailto:ankuj.mca20.du@gmail.com).
 
 ## 📄 License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
+© 2025 Ankuj Pandey. All rights reserved.
 ---
 
 **Note:** Placeholder images are used for projects and profile pictures. Replace them with your actual content for a personalized touch.
